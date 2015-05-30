@@ -1,0 +1,6 @@
+framework module Pods_koetype {
+  umbrella header "Pods-koetype-umbrella.h"
+
+  export *
+  module * { export * }
+}
