@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>9AEEA682-64D3-4F6E-A809-EA7D9B131C3B</string>
+	<key>IDESourceControlProjectName</key>
+	<string>koetype</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>2F0EF63038E23EE80EB131A601DC16FD758D2738</key>
+		<string>https://github.com/1234224576/koetype.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>koetype/koetype.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>2F0EF63038E23EE80EB131A601DC16FD758D2738</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/1234224576/koetype.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>2F0EF63038E23EE80EB131A601DC16FD758D2738</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>2F0EF63038E23EE80EB131A601DC16FD758D2738</string>
+			<key>IDESourceControlWCCName</key>
+			<string>koetype</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -5,6 +5,10 @@ use_frameworks!
 target 'koetype' do
 pod 'MagicalRecord'
 pod 'Alamofire', '~> 1.2'
+pod 'SwiftyJSON', '~> 2.2.0'
+pod 'Alamofire-SwiftyJSON', :git => "https://github.com/SwiftyJSON/Alamofire-SwiftyJSON.git"
+pod 'RESideMenu', '~> 4.0.7'
+pod 'SVProgressHUD'
 end
 
 target 'koetypeTests' do
