@@ -50,6 +50,7 @@ class MainWebViewController: UIViewController,WKNavigationDelegate {
         
         if keyPath == "loading"{
             self.progressView.hidden = !self.progressView.hidden
+            self.progressView.progress = 0
         }
         
         if keyPath == "estimatedProgress"{
