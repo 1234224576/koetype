@@ -53,6 +53,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'MagicalRecord.framework'
   install_framework 'RESideMenu.framework'
   install_framework 'SVProgressHUD.framework'
+  install_framework 'SVPullToRefresh.framework'
   install_framework 'SwiftyJSON.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -61,5 +62,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'MagicalRecord.framework'
   install_framework 'RESideMenu.framework'
   install_framework 'SVProgressHUD.framework'
+  install_framework 'SVPullToRefresh.framework'
   install_framework 'SwiftyJSON.framework'
 fi

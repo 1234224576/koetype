@@ -23,7 +23,7 @@ class RootViewController: RESideMenu,RESideMenuDelegate {
         if let storyboard = self.storyboard{
             self.contentViewController = storyboard.instantiateViewControllerWithIdentifier("contentViewController") as! UIViewController
             self.leftMenuViewController = storyboard.instantiateViewControllerWithIdentifier("leftMenuViewController") as! UIViewController
-            self.backgroundImage = UIImage(named: "Stars")
+            self.backgroundImage = UIImage(named: "Back_SkyBlue")
         }
     }
 

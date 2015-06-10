@@ -7,72 +7,82 @@
 		<key>Pods-koetype-Alamofire-SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<true/>
+			<false/>
 		</dict>
 		<key>Pods-koetype-Alamofire.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<true/>
+			<false/>
 		</dict>
 		<key>Pods-koetype-MagicalRecord.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<true/>
+			<false/>
 		</dict>
 		<key>Pods-koetype-RESideMenu.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<true/>
+			<false/>
 		</dict>
 		<key>Pods-koetype-SVProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<true/>
+			<false/>
+		</dict>
+		<key>Pods-koetype-SVPullToRefresh.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods-koetype-SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<true/>
+			<false/>
 		</dict>
 		<key>Pods-koetype.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<true/>
+			<false/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2EBD2D1EC11877F62479CD2A</key>
+		<key>0B1B9872D68E4E20AC5A9E92</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5040DAEB09646C77AD9F9FA6</key>
+		<key>2C771AEFC9ABF11E6EF85C6B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>64836861B32ADE7C612710AB</key>
+		<key>489CBC74E77EE385B98D42D6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6B04EDE8CAAE5CD8C53D76CB</key>
+		<key>5A7059CE35AE0FB97509BCAA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9CD9DB618AAD5CFD46D3B15C</key>
+		<key>5F794C0A1F836732667C0779</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E6E7F60E45A95845D6925880</key>
+		<key>88F74235F7BA6B7F9AA52BAD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EB9056FEF2C35E562A0035F5</key>
+		<key>DACC460DDE9612A0D94DE7CC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F811BDEF5E11E789636AE6A2</key>
 		<dict>
 			<key>primary</key>
 			<true/>

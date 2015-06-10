@@ -31,6 +31,10 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Jv7-AI-NMf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
                     </navigationBar>
                     <connections>
                         <segue destination="w8O-fq-Uvk" kind="relationship" relationship="rootViewController" id="lz8-6i-ZkF"/>
@@ -112,8 +116,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="s2t-dr-ZZj">
-                                <rect key="frame" x="0.0" y="120" width="414" height="616"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="s2t-dr-ZZj">
+                                <rect key="frame" x="0.0" y="100" width="414" height="636"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
@@ -121,7 +125,7 @@
                             <constraint firstItem="A7e-WJ-YY6" firstAttribute="top" secondItem="s2t-dr-ZZj" secondAttribute="bottom" id="Tgw-Er-SgA"/>
                             <constraint firstItem="s2t-dr-ZZj" firstAttribute="leading" secondItem="vTT-cb-cgS" secondAttribute="leadingMargin" constant="-16" id="Yyd-Wi-wWe"/>
                             <constraint firstAttribute="trailingMargin" secondItem="s2t-dr-ZZj" secondAttribute="trailing" constant="-16" id="pxV-kf-Fza"/>
-                            <constraint firstItem="s2t-dr-ZZj" firstAttribute="top" secondItem="vTT-cb-cgS" secondAttribute="topMargin" constant="120" id="vsQ-yh-3PK"/>
+                            <constraint firstItem="s2t-dr-ZZj" firstAttribute="top" secondItem="vTT-cb-cgS" secondAttribute="topMargin" constant="100" id="vsQ-yh-3PK"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>

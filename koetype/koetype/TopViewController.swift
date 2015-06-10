@@ -11,8 +11,16 @@ import Alamofire
 import SwiftyJSON
 import Alamofire_SwiftyJSON
 import SVProgressHUD
-
+import SVPullToRefresh
 class TopViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
+    
+    enum Mode{
+        case New
+        case Popular
+        case MyVoiceActressList
+        case MyVoiceActressArticle
+        case Favorite
+    }
 
     @IBOutlet weak var tableView: UITableView!
    
@@ -24,14 +32,39 @@ class TopViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        self.setupNavigation()
+        
+        let notification = NSNotificationCenter.defaultCenter()
+        notification.addObserver(self, selector: "changeMode:", name: "changeMode", object: nil)
+        
+        self.title = "新着"
         self.tableView.registerNib(UINib(nibName: "TopTableViewCell", bundle: nil), forCellReuseIdentifier: "TopTableViewCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         SVProgressHUD.show()
         self.loadArticle()
-    
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        self.tableView.addPullToRefreshWithActionHandler({[weak self]()in
+            if let weakself = self{
+                weakself.loadArticle()
+            }
+        })
+    }
+    func setupNavigation(){
+        self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.33, green:0.62, blue: 0.82, alpha: 1.0)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+        let menuButton = UIBarButtonItem(image:UIImage(named: "Icon_Menu")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal), style: UIBarButtonItemStyle.Plain, target: self, action: "presentLeftMenuViewController:")
+        self.navigationItem.leftBarButtonItem = menuButton
+    }
+    
+    //Notification Observer
+    func changeMode(center:NSNotificationCenter){
+        //通知を受け取る
+        
+    }
+    
     
     func loadArticle(){
         self.isLoading = true;
@@ -42,6 +75,7 @@ class TopViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
                     weakSelf.responseJsonData = json
                     weakSelf.tableView.reloadData()
                     SVProgressHUD.dismiss()
+                    weakSelf.tableView.pullToRefreshView.stopAnimating()
                 }
             })
     }
@@ -70,7 +104,6 @@ class TopViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let mainWebViewController = self.storyboard?.instantiateViewControllerWithIdentifier("MainWebViewController") as! MainWebViewController
-        mainWebViewController.url = "aaa"
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopTableViewCell
         if let url = cell.url{
             mainWebViewController.url = url
@@ -92,6 +125,10 @@ class TopViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    deinit{
+        self.removeObserver(self, forKeyPath: "changeMode")
     }
     
 
