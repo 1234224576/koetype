@@ -10,17 +10,19 @@ import UIKit
 
 class LeftMenuViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     enum Menu:Int{
-        case New = 0
+        case New
         case Popular
         case MyActressList
         case MyActressArticle
         case Favorite
+        case Search
         case Setting
     }
     
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.tableView.registerNib(UINib(nibName: "LeftMenuTableViewCell", bundle: nil), forCellReuseIdentifier: "LeftMenuTableViewCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -34,7 +36,7 @@ class LeftMenuViewController: UIViewController,UITableViewDelegate,UITableViewDa
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return 7
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -56,6 +58,9 @@ class LeftMenuViewController: UIViewController,UITableViewDelegate,UITableViewDa
             case Menu.Favorite.rawValue:
                 cell.nameLabel.text = "お気に入り"
                 cell.iconImageView.image = UIImage(named: "Menu_Favorite")
+            case Menu.Search.rawValue:
+                cell.nameLabel.text = "検索"
+                cell.iconImageView.image = UIImage(named: "Menu_Search")
             case Menu.Setting.rawValue:
                 cell.nameLabel.text = "設定"
                 cell.iconImageView.image = UIImage(named: "Menu_Setting")
@@ -68,7 +73,28 @@ class LeftMenuViewController: UIViewController,UITableViewDelegate,UITableViewDa
         
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        let nc = NSNotificationCenter.defaultCenter()
+        switch indexPath.row{
+            case Menu.New.rawValue:
+                nc.postNotificationName("changeMode", object: self, userInfo:["Mode":"New"])
+            case Menu.Popular.rawValue:
+                nc.postNotificationName("changeMode", object: self, userInfo:["Mode":"Popular"])
+            case Menu.MyActressList.rawValue:
+                nc.postNotificationName("changeMode", object: self, userInfo:["Mode":"MyActressList"])
+            case Menu.MyActressArticle.rawValue:
+                nc.postNotificationName("changeMode", object: self, userInfo:["Mode":"MyActressArticle"])
+            case Menu.Favorite.rawValue:
+                nc.postNotificationName("changeMode", object: self, userInfo:["Mode":"Favorite"])
+            case Menu.Search.rawValue:
+                //画面遷移
+                break
+            case Menu.Setting.rawValue:
+                //画面遷移
+                break
+            default:
+                print("notification error")
+        }
+        self.sideMenuViewController.hideMenuViewController()
     }
     
     

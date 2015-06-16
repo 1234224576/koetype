@@ -12,6 +12,7 @@ import SwiftyJSON
 import Alamofire_SwiftyJSON
 import SVProgressHUD
 import SVPullToRefresh
+import MagicalRecord
 class TopViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
     
     enum Mode{
@@ -29,9 +30,11 @@ class TopViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
     let kOnceLoadArticle = 20
     var page : Int = 1
     var responseJsonData:JSON?
+    var params = ["limit" : "20"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        MagicalRecord.setupCoreDataStack()
         self.setupNavigation()
         
         let notification = NSNotificationCenter.defaultCenter()
@@ -60,15 +63,44 @@ class TopViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
     }
     
     //Notification Observer
-    func changeMode(center:NSNotificationCenter){
+    func changeMode(center:NSNotification){
         //通知を受け取る
-        
+        self.params.removeAll(keepCapacity: false)
+        self.page = 1
+        //WARNING スクロールバーを一番上へ
+        if let dic = center.userInfo{
+            switch dic["Mode"] as! String{
+                case "New":
+                    self.title = "新着"
+                self.setApiParameterWithNew()
+                case "Popular":
+                    print("人気")
+                    self.title = "今週の人気記事"
+                    self.setApiParameterWithPopular()
+                case "MyActressList":
+                    self.title = "マイ声優一覧"
+                self.setApiParameterWithMyActressList()
+                case "MyActressArticle":
+                    self.title = "マイ声優の記事一覧"
+                    print("声優記事")
+                    self.setApiParameterWithMyActressArticle()
+                case "Favorite":
+                    self.title = "お気に入り"
+                    print("お気に入り")
+                    self.setApiParameterWithFavorite()
+                default:
+                    break;
+                
+            }
+        }
     }
     
     
     func loadArticle(){
         self.isLoading = true;
-        Alamofire.request(.GET, baseUrl,parameters: ["limit":"\(self.page * kOnceLoadArticle)"])
+        print(self.params)
+        self.params["limit"] = "\(self.page * kOnceLoadArticle)"
+        Alamofire.request(.GET, baseUrl,parameters: self.params)
             .responseSwiftyJSON({[weak self] (request, response, json, error) in
                 if let weakSelf = self{
                     weakSelf.isLoading = false;
@@ -80,6 +112,34 @@ class TopViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
             })
     }
     
+    //MARK: -SetApiParameters
+    func setApiParameterWithNew(){
+        self.loadArticle()
+    }
+    func setApiParameterWithPopular(){
+        self.params["isPopular"] = "1"
+        self.params["kindPopular"] = "1"
+        self.loadArticle()
+    }
+    func setApiParameterWithMyActressList(){
+        
+    }
+    func setApiParameterWithMyActressArticle(){
+        
+    }
+    func setApiParameterWithFavorite(){
+        let favorits = Favorite.MR_findAll()
+        var ids = ""
+        for favorite in favorits{
+            print(favorite.article_id)
+            ids += "\(favorite.article_id)"
+            ids += ","
+        }
+        self.params["isPopular"] = "3"
+        self.params["id"] = ids
+        self.loadArticle()
+    }
+    
     
     //MARK: -UITableViewDelegate,Datasorce
 
@@ -88,17 +148,22 @@ class TopViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let json = self.responseJsonData{
+            return min(self.page * kOnceLoadArticle,json["feed"].count)
+        }
         return self.page * kOnceLoadArticle
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TopTableViewCell", forIndexPath: indexPath) as! TopTableViewCell
         if let json = self.responseJsonData{
-            cell.titleLabel.text = json["feed"][indexPath.row]["title"].string
-            cell.nameLabel.text = json["feed"][indexPath.row]["media"].string
-            cell.dateLabel.text = publishedStringToDate(json["feed"][indexPath.row]["published"].string!)
-            cell.url = json["feed"][indexPath.row]["link"].string
-            cell.articleId = json["feed"][indexPath.row]["id"].string?.toInt()
+            if json["feed"][indexPath.row] != nil{
+                cell.titleLabel.text = json["feed"][indexPath.row]["title"].string
+                cell.nameLabel.text = json["feed"][indexPath.row]["media"].string
+                cell.dateLabel.text = publishedStringToDate(json["feed"][indexPath.row]["published"].string!)
+                cell.url = json["feed"][indexPath.row]["link"].string
+                cell.articleId = json["feed"][indexPath.row]["id"].string?.toInt()
+            }
         }
         return cell
     }
@@ -120,6 +185,11 @@ class TopViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
         if self.tableView.contentOffset.y >= self.tableView.contentSize.height - self.tableView.bounds.size.height{
             if self.isLoading{
                 return
+            }
+            if let json = self.responseJsonData{
+                if self.page * kOnceLoadArticle > json["feed"].count{
+                    return
+                }
             }
             self.page+=1
             self.loadArticle()

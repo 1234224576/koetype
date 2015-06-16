@@ -24,16 +24,9 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        MagicalRecord.setupCoreDataStack()
         
         self.setupNavigationBar()
         self.setupVerticalMenu()
-        
-        //デバッグ用に声優の名前を表示してみるてすと
-//        print(actressName)
-//        print(articleId)
-//        print(url)
-//        print("\n")
         
         self.webview.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
         self.webview.navigationDelegate = self
