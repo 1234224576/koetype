@@ -8,16 +8,21 @@
 
 import UIKit
 import WebKit
+import MagicalRecord
+import Social
+import MessageUI
 
 class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMenuDelegate {
     var url = ""
     var webview = WKWebView()
     var verticalMenu = FCVerticalMenu()
+    var actressName = ""
     
     var progressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Default)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        MagicalRecord.setupCoreDataStack()
         
         self.setupNavigationBar()
         self.setupVerticalMenu()
@@ -39,7 +44,7 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
         self.progressView.progress = 0
         self.progressView.hidden = true
         self.view.addSubview(self.progressView)
-        
+    
         
         if let u =  NSURL(string: self.url){
             self.webview.loadRequest(NSURLRequest(URL: u))
@@ -70,15 +75,25 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
         let item6 = FCVerticalMenuItem(title: "記事を通報", andIconImage: UIImage(named: "Icon_Mail"))
         item1.actionBlock = {
             //Twitterシェア
-        
+            let twitter = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+            if let url = self.webview.URL,title = self.webview.title{
+                twitter.setInitialText("\(title)\n\(url)")
+            }
+            self.presentViewController(twitter, animated: true, completion: nil)
         }
         item2.actionBlock = {
             //Facebookシェア
-        
+            let facebook = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+            if let url = self.webview.URL,title = self.webview.title{
+                facebook.setInitialText("\(title)\n\(url)")
+            }
+            self.presentViewController(facebook, animated: true, completion: nil)
         }
         item3.actionBlock = {
             //Show Safari
-        
+            if let url = self.webview.URL{
+                UIApplication.sharedApplication().openURL(url)
+            }
         }
         item4.actionBlock = {
             //Add Favorite
@@ -90,6 +105,15 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
         }
         item6.actionBlock = {
             //Send Mail
+            if(!MFMailComposeViewController.canSendMail()){
+                print("error")
+            }else{
+                let mail = MFMailComposeViewController()
+                mail.setSubject("記事を通報")
+                mail.setToRecipients(["deeptoneworks@gmail.com"])
+                mail.setMessageBody("内容:\n\n対象URL:\(self.url)", isHTML: false)
+                self.presentViewController(mail, animated: true, completion: nil)
+            }
             
         }
         self.verticalMenu.items = [item1,item2,item3,item4,item5,item6]

@@ -7,42 +7,42 @@
 		<key>Pods-koetype-Alamofire-SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 		</dict>
 		<key>Pods-koetype-Alamofire.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 		</dict>
 		<key>Pods-koetype-MagicalRecord.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 		</dict>
 		<key>Pods-koetype-RESideMenu.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 		</dict>
 		<key>Pods-koetype-SVProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 		</dict>
 		<key>Pods-koetype-SVPullToRefresh.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 		</dict>
 		<key>Pods-koetype-SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 		</dict>
 		<key>Pods-koetype.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
