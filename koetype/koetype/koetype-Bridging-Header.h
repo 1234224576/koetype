@@ -10,5 +10,6 @@
 #define koetype_koetype_Bridging_Header_h
 
 #import "FCVerticalMenu.h"
-
+#import "Favorite.h"
+#import "MyVoiceActress.h"
 #endif

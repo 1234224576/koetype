@@ -12,7 +12,6 @@
 
 @interface MyVoiceActress : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * article_id;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSDate * date;
 

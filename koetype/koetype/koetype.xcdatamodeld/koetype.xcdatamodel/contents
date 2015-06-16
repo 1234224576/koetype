@@ -6,12 +6,11 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="MyVoiceActress" representedClassName="MyVoiceActress" syncable="YES">
-        <attribute name="article_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MyVoiceActress" positionX="-63" positionY="-18" width="128" height="90"/>
+        <element name="MyVoiceActress" positionX="-63" positionY="-18" width="128" height="75"/>
         <element name="Favorite" positionX="-54" positionY="-9" width="128" height="90"/>
     </elements>
 </model>

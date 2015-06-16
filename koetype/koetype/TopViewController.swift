@@ -96,8 +96,9 @@ class TopViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
         if let json = self.responseJsonData{
             cell.titleLabel.text = json["feed"][indexPath.row]["title"].string
             cell.nameLabel.text = json["feed"][indexPath.row]["media"].string
-            cell.dateLabel.text = json["feed"][indexPath.row]["published"].string
+            cell.dateLabel.text = publishedStringToDate(json["feed"][indexPath.row]["published"].string!)
             cell.url = json["feed"][indexPath.row]["link"].string
+            cell.articleId = json["feed"][indexPath.row]["id"].string?.toInt()
         }
         return cell
     }
@@ -105,8 +106,11 @@ class TopViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let mainWebViewController = self.storyboard?.instantiateViewControllerWithIdentifier("MainWebViewController") as! MainWebViewController
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopTableViewCell
-        if let url = cell.url{
+        if let url = cell.url,name = cell.nameLabel.text,articleId = cell.articleId,date = cell.dateLabel.text{
             mainWebViewController.url = url
+            mainWebViewController.actressName = name
+            mainWebViewController.articleId = articleId
+            mainWebViewController.articleDate = date
         }
         let navigationController = UINavigationController(rootViewController: mainWebViewController)
         self.presentViewController(navigationController, animated: true, completion: nil)
@@ -126,6 +130,11 @@ class TopViewController: UIViewController,UITableViewDelegate,UITableViewDataSou
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    private func publishedStringToDate(publishStr:String)->String{
+        let dateStr = (publishStr as NSString).substringToIndex(10)
+        return dateStr
+    }
+    
     
     deinit{
         self.removeObserver(self, forKeyPath: "changeMode")

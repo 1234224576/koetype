@@ -11,7 +11,6 @@
 
 @implementation MyVoiceActress
 
-@dynamic article_id;
 @dynamic name;
 @dynamic date;
 

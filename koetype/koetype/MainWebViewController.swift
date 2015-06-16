@@ -17,6 +17,8 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
     var webview = WKWebView()
     var verticalMenu = FCVerticalMenu()
     var actressName = ""
+    var articleId = -1
+    var articleDate = ""
     
     var progressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Default)
     
@@ -27,6 +29,11 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
         self.setupNavigationBar()
         self.setupVerticalMenu()
         
+        //デバッグ用に声優の名前を表示してみるてすと
+//        print(actressName)
+//        print(articleId)
+//        print(url)
+//        print("\n")
         
         self.webview.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
         self.webview.navigationDelegate = self
@@ -97,16 +104,36 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
         }
         item4.actionBlock = {
             //Add Favorite
-        
+            let magicalContext = NSManagedObjectContext.MR_defaultContext()
+            let fav = Favorite.MR_createEntity() as! Favorite
+            fav.article_id = self.articleId
+            fav.name = self.actressName
+            let dateFormatter : NSDateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let date = dateFormatter.dateFromString(self.articleDate)
+            if let d = date{
+                fav.date = d
+            }
+            magicalContext.MR_saveOnlySelfAndWait()
         }
         item5.actionBlock = {
             //Add My Voice Actress
-            
+            let magicalContext = NSManagedObjectContext.MR_defaultContext()
+            let myactress = MyVoiceActress.MR_createEntity() as! MyVoiceActress
+            myactress.name = self.actressName
+            myactress.date = NSDate()
+            magicalContext.MR_saveOnlySelfAndWait()
         }
         item6.actionBlock = {
             //Send Mail
-            if(!MFMailComposeViewController.canSendMail()){
-                print("error")
+            if(MFMailComposeViewController.canSendMail()){
+                let alert = UIAlertController(title: "Error", message: "メーラーの起動に失敗しました。", preferredStyle:.Alert)
+                let okbutton = UIAlertAction(title: "OK", style:UIAlertActionStyle.Default, handler: {
+                    action in
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                })
+                alert.addAction(okbutton)
+                self.presentViewController(alert, animated: true, completion: nil)
             }else{
                 let mail = MFMailComposeViewController()
                 mail.setSubject("記事を通報")

@@ -14,6 +14,7 @@ class TopTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     var url:String?
+    var articleId:Int?
     
     override func awakeFromNib() {
         super.awakeFromNib()
