@@ -12,7 +12,7 @@ import MagicalRecord
 import Social
 import MessageUI
 
-class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMenuDelegate {
+class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMenuDelegate,UIGestureRecognizerDelegate {
     var url = ""
     var webview = WKWebView()
     var verticalMenu = FCVerticalMenu()
@@ -44,13 +44,24 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
         self.progressView.progress = 0
         self.progressView.hidden = true
         self.view.addSubview(self.progressView)
-    
+        
+        let doubleTapGesture = UITapGestureRecognizer(target: self, action: "doubleTap:")
+        doubleTapGesture.delegate = self
+        doubleTapGesture.numberOfTapsRequired = 2
+        self.webview.addGestureRecognizer(doubleTapGesture)
+        self.webview.scrollView.addGestureRecognizer(doubleTapGesture)
         
         if let u =  NSURL(string: self.url){
             self.webview.loadRequest(NSURLRequest(URL: u))
         }
     }
     
+    func doubleTap(sender:UITapGestureRecognizer){
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
     func setupNavigationBar(){
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.33, green:0.62, blue: 0.82, alpha: 1.0)
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]

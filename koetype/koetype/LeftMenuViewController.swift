@@ -16,7 +16,7 @@ class LeftMenuViewController: UIViewController,UITableViewDelegate,UITableViewDa
         case MyActressArticle
         case Favorite
         case Search
-        case Setting
+//        case Setting
     }
     
     @IBOutlet weak var tableView: UITableView!
@@ -38,7 +38,7 @@ class LeftMenuViewController: UIViewController,UITableViewDelegate,UITableViewDa
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        return 6
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -63,9 +63,9 @@ class LeftMenuViewController: UIViewController,UITableViewDelegate,UITableViewDa
             case Menu.Search.rawValue:
                 cell.nameLabel.text = "検索"
                 cell.iconImageView.image = UIImage(named: "Menu_Search")
-            case Menu.Setting.rawValue:
-                cell.nameLabel.text = "設定"
-                cell.iconImageView.image = UIImage(named: "Menu_Setting")
+//            case Menu.Setting.rawValue:
+//                cell.nameLabel.text = "設定"
+//                cell.iconImageView.image = UIImage(named: "Menu_Setting")
             default:
                 cell.nameLabel.text = ""
                 cell.iconImageView.image = UIImage(named: "")
@@ -103,9 +103,9 @@ class LeftMenuViewController: UIViewController,UITableViewDelegate,UITableViewDa
                     let vc = UINavigationController(rootViewController: storyboard.instantiateViewControllerWithIdentifier("SearchViewController")as! UIViewController)
                     self.sideMenuViewController.setContentViewController(vc, animated: true)
                     break
-                case Menu.Setting.rawValue:
-                    //画面遷移
-                    break
+//                case Menu.Setting.rawValue:
+//                    //画面遷移
+//                    break
                 default:
                     print("notification error")
             }
