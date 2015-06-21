@@ -29,6 +29,11 @@ class MyActressListDetailViewController: BaseViewController,UITableViewDelegate,
         self.loadArticle()
         // Do any additional setup after loading the view.
     }
+    override func viewWillAppear(animated: Bool) {
+        if let indexPath = self.tableView.indexPathForSelectedRow(){
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+    }
     
     //MARK: -UITableViewDelegate,Datasorce
     

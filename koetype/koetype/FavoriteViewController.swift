@@ -29,6 +29,11 @@ class FavoriteViewController: BaseViewController,UITableViewDelegate,UITableView
         self.setApiParameterWithFavorite()
         // Do any additional setup after loading the view.
     }
+    override func viewWillAppear(animated: Bool) {
+        if let indexPath = self.tableView.indexPathForSelectedRow(){
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+    }
     
     func loadArticle(){
         self.isLoading = true;

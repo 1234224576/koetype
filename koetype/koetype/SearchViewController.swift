@@ -27,7 +27,11 @@ class SearchViewController: BaseViewController,UISearchBarDelegate,UITableViewDe
         SVProgressHUD.show()
         self.setApiParameterWithFind(keyword:"")
     }
-    
+    override func viewWillAppear(animated: Bool) {
+        if let indexPath = self.tableView.indexPathForSelectedRow(){
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+    }
     func loadArticle(){
         self.isLoading = true;
         self.params["limit"] = "\(self.page * kOnceLoadArticle)"

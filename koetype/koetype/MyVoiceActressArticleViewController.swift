@@ -30,6 +30,12 @@ class MyVoiceActressArticleViewController: BaseViewController,UITableViewDelegat
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(animated: Bool) {
+        if let indexPath = self.tableView.indexPathForSelectedRow(){
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+    }
+    
     func loadArticle(){
         self.isLoading = true;
         self.params["limit"] = "\(self.page * kOnceLoadArticle)"
@@ -86,18 +92,6 @@ class MyVoiceActressArticleViewController: BaseViewController,UITableViewDelegat
             self.loadArticle()
         }
     }
-    
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete{
-            let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopTableViewCell
-            if let articleId = cell.articleId{
-                let fav : Favorite? = Favorite.MR_findFirstByAttribute("article_id", withValue: articleId) as? Favorite
-                fav!.MR_deleteEntity()
-                setApiParameterWithFavorite()
-            }
-        }
-    }
-
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

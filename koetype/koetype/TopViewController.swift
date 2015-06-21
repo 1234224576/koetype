@@ -31,7 +31,11 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
         self.setupMode()
         self.loadArticle()
     }
-    
+    override func viewWillAppear(animated: Bool) {
+        if let indexPath = self.tableView.indexPathForSelectedRow(){
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+    }
     override func viewDidAppear(animated: Bool) {
         self.tableView.addPullToRefreshWithActionHandler({[weak self]()in
             if let weakself = self{

@@ -31,6 +31,12 @@ class MyVoiceActressListViewController: UIViewController,UITableViewDelegate,UIT
         self.loadActressData()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        if let indexPath = self.tableView.indexPathForSelectedRow(){
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+    }
+    
     func loadActressData(){
         
         self.actressList = MyVoiceActress.MR_findAll()

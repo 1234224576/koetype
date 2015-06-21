@@ -26,7 +26,9 @@ class LeftMenuViewController: UIViewController,UITableViewDelegate,UITableViewDa
         self.tableView.registerNib(UINib(nibName: "LeftMenuTableViewCell", bundle: nil), forCellReuseIdentifier: "LeftMenuTableViewCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
-    
+    }
+    override func viewWillAppear(animated: Bool) {
+       self.tableView.selectRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), animated: true, scrollPosition: UITableViewScrollPosition.None)
     }
     
     //MARK: -UITableViewDelegate,Datasorce
