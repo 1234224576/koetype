@@ -47,7 +47,7 @@ class MyVoiceActressListViewController: UIViewController,UITableViewDelegate,UIT
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
-      
+        cell.accessoryType = .DisclosureIndicator
         let actress:MyVoiceActress = self.actressList[indexPath.row] as! MyVoiceActress
         cell.textLabel?.text = actress.name
         return cell

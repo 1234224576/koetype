@@ -98,7 +98,8 @@ class LeftMenuViewController: UIViewController,UITableViewDelegate,UITableViewDa
                     let vc = UINavigationController(rootViewController: storyboard.instantiateViewControllerWithIdentifier("FavoriteViewController")as! UIViewController)
                     self.sideMenuViewController.setContentViewController(vc, animated: true)
                 case Menu.Search.rawValue:
-                    //画面遷移
+                    let vc = UINavigationController(rootViewController: storyboard.instantiateViewControllerWithIdentifier("SearchViewController")as! UIViewController)
+                    self.sideMenuViewController.setContentViewController(vc, animated: true)
                     break
                 case Menu.Setting.rawValue:
                     //画面遷移

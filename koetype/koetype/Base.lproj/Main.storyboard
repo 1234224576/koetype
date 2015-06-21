@@ -41,6 +41,7 @@
                         <segue destination="VcV-ot-qrt" kind="show" id="nwp-gV-tRF"/>
                         <segue destination="Lor-cl-ziI" kind="show" id="G5P-c7-i2l"/>
                         <segue destination="vGt-Ct-h6e" kind="show" id="y9E-1K-UN2"/>
+                        <segue destination="IuF-tx-yyF" kind="show" id="5qm-LQ-LRp"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hxB-vO-GQM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -156,6 +157,51 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bed-bj-AKj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1815" y="2080"/>
+        </scene>
+        <!--Search View Controller-->
+        <scene sceneID="OL7-Em-A6f">
+            <objects>
+                <viewController storyboardIdentifier="SearchViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="IuF-tx-yyF" customClass="SearchViewController" customModule="koetype" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3eK-rW-djJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="44o-qF-2Tl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ufM-Sv-O1D">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="ooO-Sa-uGd">
+                                <rect key="frame" x="0.0" y="64" width="414" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="ceI-qk-qg2"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="v6Y-6j-c9S">
+                                <rect key="frame" x="0.0" y="108" width="414" height="628"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottomMargin" secondItem="v6Y-6j-c9S" secondAttribute="bottom" id="6jn-N0-FNr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ooO-Sa-uGd" secondAttribute="trailing" constant="-16" id="ALl-mE-WGG"/>
+                            <constraint firstItem="ooO-Sa-uGd" firstAttribute="leading" secondItem="ufM-Sv-O1D" secondAttribute="leadingMargin" constant="-16" id="WRk-Vg-uIh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="v6Y-6j-c9S" secondAttribute="trailing" constant="-16" id="XXn-j4-ujy"/>
+                            <constraint firstItem="v6Y-6j-c9S" firstAttribute="leading" secondItem="ufM-Sv-O1D" secondAttribute="leadingMargin" constant="-16" id="owF-Gu-bHp"/>
+                            <constraint firstItem="ooO-Sa-uGd" firstAttribute="top" secondItem="3eK-rW-djJ" secondAttribute="bottom" id="pdA-Is-Jxf"/>
+                            <constraint firstItem="v6Y-6j-c9S" firstAttribute="top" secondItem="ooO-Sa-uGd" secondAttribute="bottom" id="rIk-be-ct8"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="searchView" destination="ooO-Sa-uGd" id="1Vl-Xx-0ZD"/>
+                        <outlet property="tableView" destination="v6Y-6j-c9S" id="yQe-DL-jyR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vnY-lE-q2s" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1224" y="2875"/>
         </scene>
         <!--My Voice Actress Article View Controller-->
         <scene sceneID="gca-sc-ezz">
