@@ -70,7 +70,9 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
                     weakSelf.responseJsonData = json
                     weakSelf.tableView.reloadData()
                     SVProgressHUD.dismiss()
-                    weakSelf.tableView.pullToRefreshView.stopAnimating()
+                    if let p = weakSelf.tableView.pullToRefreshView{
+                        p.stopAnimating()
+                    }
                 }
             })
     }
