@@ -40,6 +40,7 @@
                         <segue destination="w8O-fq-Uvk" kind="relationship" relationship="rootViewController" id="lz8-6i-ZkF"/>
                         <segue destination="VcV-ot-qrt" kind="show" id="nwp-gV-tRF"/>
                         <segue destination="Lor-cl-ziI" kind="show" id="G5P-c7-i2l"/>
+                        <segue destination="vGt-Ct-h6e" kind="show" id="y9E-1K-UN2"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hxB-vO-GQM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -155,6 +156,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bed-bj-AKj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1815" y="2080"/>
+        </scene>
+        <!--My Voice Actress Article View Controller-->
+        <scene sceneID="gca-sc-ezz">
+            <objects>
+                <viewController storyboardIdentifier="MyVoiceActressArticle" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vGt-Ct-h6e" customClass="MyVoiceActressArticleViewController" customModule="koetype" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="MNg-bY-0eb"/>
+                        <viewControllerLayoutGuide type="bottom" id="pyQ-DU-SaR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Xu6-xa-1FI">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="eg4-p2-xAG">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="pyQ-DU-SaR" firstAttribute="top" secondItem="eg4-p2-xAG" secondAttribute="bottom" id="3pg-H7-qyT"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="eg4-p2-xAG" secondAttribute="trailing" constant="-16" id="DXv-Zl-Hof"/>
+                            <constraint firstItem="eg4-p2-xAG" firstAttribute="top" secondItem="Xu6-xa-1FI" secondAttribute="topMargin" id="M2W-iN-McN"/>
+                            <constraint firstItem="eg4-p2-xAG" firstAttribute="leading" secondItem="Xu6-xa-1FI" secondAttribute="leadingMargin" constant="-16" id="mLg-ep-r5F"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="tableView" destination="eg4-p2-xAG" id="Ff7-KN-DhU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c5y-db-Lq5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1815" y="2875"/>
         </scene>
         <!--My Actress List Detail View Controller-->
         <scene sceneID="9Kt-gM-i65">

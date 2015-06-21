@@ -17,14 +17,16 @@ class MyActressListDetailViewController: BaseViewController,UITableViewDelegate,
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.reloadData()
         super.setupNavigation()
         self.navigationItem.leftBarButtonItem = nil
-
+  
         self.title = "\(self.actressName)の記事"
         self.tableView.registerNib(UINib(nibName: "TopTableViewCell", bundle: nil), forCellReuseIdentifier: "TopTableViewCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         SVProgressHUD.show()
+        self.loadArticle()
         // Do any additional setup after loading the view.
     }
     
@@ -34,7 +36,7 @@ class MyActressListDetailViewController: BaseViewController,UITableViewDelegate,
         self.isLoading = true;
         self.params["isPopular"] = "2"
         self.params["keyword"] = self.actressName
-        self.params["limit"] = "\(self.page * kOnceLoadArticle)"
+        self.params["limit"] = "999"
         Alamofire.request(.GET, baseUrl,parameters: self.params)
             .responseSwiftyJSON({[weak self] (request, response, json, error) in
                 if let weakSelf = self{
@@ -59,19 +61,12 @@ class MyActressListDetailViewController: BaseViewController,UITableViewDelegate,
         }
         return cell
     }
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        if self.tableView.contentOffset.y >= self.tableView.contentSize.height - self.tableView.bounds.size.height{
-            if self.isLoading{
-                return
-            }
-            if let json = self.responseJsonData{
-                if self.page * kOnceLoadArticle > json["feed"].count{
-                    return
-                }
-            }
-            self.page+=1
-            self.loadArticle()
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let json = self.responseJsonData{
+
+            return json["feed"].count
         }
+        return 0
     }
 
     override func didReceiveMemoryWarning() {

@@ -1,5 +1,5 @@
 //
-//  FavoriteViewController.swift
+//  MyVoiceActressArticleViewController.swift
 //  koetype
 //
 //  Created by 曽和修平 on 2015/06/21.
@@ -12,16 +12,16 @@ import SwiftyJSON
 import Alamofire_SwiftyJSON
 import SVProgressHUD
 import MagicalRecord
-
-class FavoriteViewController: BaseViewController,UITableViewDelegate,UITableViewDataSource {
+class MyVoiceActressArticleViewController: BaseViewController,UITableViewDelegate,UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
-    
     override func viewDidLoad() {
+        super.viewDidLoad()
+
         super.viewDidLoad()
         MagicalRecord.setupCoreDataStack()
         super.setupNavigation()
-        self.title = "お気に入り"
+        self.title = "マイ声優記事"
         self.tableView.registerNib(UINib(nibName: "TopTableViewCell", bundle: nil), forCellReuseIdentifier: "TopTableViewCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -32,8 +32,6 @@ class FavoriteViewController: BaseViewController,UITableViewDelegate,UITableView
     
     func loadArticle(){
         self.isLoading = true;
-        
-        print(self.params)
         self.params["limit"] = "\(self.page * kOnceLoadArticle)"
         Alamofire.request(.GET, baseUrl,parameters: self.params)
             .responseSwiftyJSON({[weak self] (request, response, json, error) in
@@ -47,19 +45,18 @@ class FavoriteViewController: BaseViewController,UITableViewDelegate,UITableView
     }
     
     func setApiParameterWithFavorite(){
-        let favorits = Favorite.MR_findAll()
-        var ids = ""
-        for favorite in favorits{
-            print(favorite.article_id)
-            ids += "\(favorite.article_id)"
-            ids += ","
+        let actresses = MyVoiceActress.MR_findAll()
+        var names = ""
+        for actress in actresses{
+            names += "\(actress.name)"
+            names += ","
         }
-        self.params["isPopular"] = "4"
-        self.params["id"] = ids
+        self.params["isPopular"] = "3"
+        self.params["keyword"] = names
         self.loadArticle()
     }
     
-
+    
     //MARK: -UITableViewDelegate,Datasorce
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -100,10 +97,22 @@ class FavoriteViewController: BaseViewController,UITableViewDelegate,UITableView
             }
         }
     }
-    
+
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
 
 }

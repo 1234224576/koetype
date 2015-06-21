@@ -92,7 +92,8 @@ class LeftMenuViewController: UIViewController,UITableViewDelegate,UITableViewDa
                     let vc = UINavigationController(rootViewController: storyboard.instantiateViewControllerWithIdentifier("MyVoiceActressList")as! UIViewController)
                     self.sideMenuViewController.setContentViewController(vc, animated: true)
                 case Menu.MyActressArticle.rawValue:
-                    nc.postNotificationName("changeMode", object: self, userInfo:["Mode":"MyActressArticle"])
+                    let vc = UINavigationController(rootViewController: storyboard.instantiateViewControllerWithIdentifier("MyVoiceActressArticle")as! UIViewController)
+                    self.sideMenuViewController.setContentViewController(vc, animated: true)
                 case Menu.Favorite.rawValue:
                     let vc = UINavigationController(rootViewController: storyboard.instantiateViewControllerWithIdentifier("FavoriteViewController")as! UIViewController)
                     self.sideMenuViewController.setContentViewController(vc, animated: true)

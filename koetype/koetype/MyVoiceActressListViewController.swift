@@ -32,7 +32,9 @@ class MyVoiceActressListViewController: UIViewController,UITableViewDelegate,UIT
     }
     
     func loadActressData(){
+        
         self.actressList = MyVoiceActress.MR_findAll()
+        
         self.tableView.reloadData()
     }
     override func didReceiveMemoryWarning() {
