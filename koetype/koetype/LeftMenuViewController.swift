@@ -74,25 +74,36 @@ class LeftMenuViewController: UIViewController,UITableViewDelegate,UITableViewDa
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let nc = NSNotificationCenter.defaultCenter()
-        switch indexPath.row{
-            case Menu.New.rawValue:
-                nc.postNotificationName("changeMode", object: self, userInfo:["Mode":"New"])
-            case Menu.Popular.rawValue:
-                nc.postNotificationName("changeMode", object: self, userInfo:["Mode":"Popular"])
-            case Menu.MyActressList.rawValue:
-                nc.postNotificationName("changeMode", object: self, userInfo:["Mode":"MyActressList"])
-            case Menu.MyActressArticle.rawValue:
-                nc.postNotificationName("changeMode", object: self, userInfo:["Mode":"MyActressArticle"])
-            case Menu.Favorite.rawValue:
-                nc.postNotificationName("changeMode", object: self, userInfo:["Mode":"Favorite"])
-            case Menu.Search.rawValue:
-                //画面遷移
-                break
-            case Menu.Setting.rawValue:
-                //画面遷移
-                break
-            default:
-                print("notification error")
+
+        if let storyboard = self.storyboard{
+            switch indexPath.row{
+                case Menu.New.rawValue:
+                    let rootvc = storyboard.instantiateViewControllerWithIdentifier("topViewController")as! TopViewController
+                    rootvc.isNewMode = true;
+                    let vc = UINavigationController(rootViewController: rootvc)
+                    self.sideMenuViewController.setContentViewController(vc, animated: true)
+                case Menu.Popular.rawValue:
+                    let rootvc = storyboard.instantiateViewControllerWithIdentifier("topViewController")as! TopViewController
+                    rootvc.isNewMode = false;
+                    let vc = UINavigationController(rootViewController: rootvc)
+                    self.sideMenuViewController.setContentViewController(vc, animated: true)
+                
+                case Menu.MyActressList.rawValue:
+                    nc.postNotificationName("changeMode", object: self, userInfo:["Mode":"MyActressList"])
+                case Menu.MyActressArticle.rawValue:
+                    nc.postNotificationName("changeMode", object: self, userInfo:["Mode":"MyActressArticle"])
+                case Menu.Favorite.rawValue:
+                    let vc = UINavigationController(rootViewController: storyboard.instantiateViewControllerWithIdentifier("FavoriteViewController")as! UIViewController)
+                    self.sideMenuViewController.setContentViewController(vc, animated: true)
+                case Menu.Search.rawValue:
+                    //画面遷移
+                    break
+                case Menu.Setting.rawValue:
+                    //画面遷移
+                    break
+                default:
+                    print("notification error")
+            }
         }
         self.sideMenuViewController.hideMenuViewController()
     }

@@ -1,8 +1,8 @@
 //
-//  TopViewController.swift
+//  FavoriteViewController.swift
 //  koetype
 //
-//  Created by 曽和修平 on 2015/06/08.
+//  Created by 曽和修平 on 2015/06/21.
 //  Copyright (c) 2015年 曽和修平. All rights reserved.
 //
 
@@ -11,52 +11,28 @@ import Alamofire
 import SwiftyJSON
 import Alamofire_SwiftyJSON
 import SVProgressHUD
-import SVPullToRefresh
 import MagicalRecord
 
-class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataSource{
-    
+class FavoriteViewController: BaseViewController,UITableViewDelegate,UITableViewDataSource {
+
     @IBOutlet weak var tableView: UITableView!
-    var isNewMode = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         MagicalRecord.setupCoreDataStack()
         super.setupNavigation()
-
+        self.title = "お気に入り"
         self.tableView.registerNib(UINib(nibName: "TopTableViewCell", bundle: nil), forCellReuseIdentifier: "TopTableViewCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         SVProgressHUD.show()
-        self.setupMode()
-        self.loadArticle()
+        self.setApiParameterWithFavorite()
+        // Do any additional setup after loading the view.
     }
-    
-    override func viewDidAppear(animated: Bool) {
-        self.tableView.addPullToRefreshWithActionHandler({[weak self]()in
-            if let weakself = self{
-                weakself.loadArticle()
-            }
-        })
-    }
-    
-    //新着or人気記事
-    func setupMode(){
-        self.params.removeAll(keepCapacity: false)
-        self.page = 1
-        //WARNING スクロールバーを一番上へ
-        if isNewMode{
-            self.title = "新着"
-            self.setApiParameterWithNew()
-        }else{
-            self.title = "今週の人気記事"
-            self.setApiParameterWithPopular()
-        }
-    }
-    
     
     func loadArticle(){
         self.isLoading = true;
+        
         print(self.params)
         self.params["limit"] = "\(self.page * kOnceLoadArticle)"
         Alamofire.request(.GET, baseUrl,parameters: self.params)
@@ -66,21 +42,24 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
                     weakSelf.responseJsonData = json
                     weakSelf.tableView.reloadData()
                     SVProgressHUD.dismiss()
-                    weakSelf.tableView.pullToRefreshView.stopAnimating()
                 }
             })
     }
     
-    //MARK: -SetApiParameters
-    func setApiParameterWithNew(){
-        self.loadArticle()
-    }
-    func setApiParameterWithPopular(){
-        self.params["isPopular"] = "1"
-        self.params["kindPopular"] = "1"
+    func setApiParameterWithFavorite(){
+        let favorits = Favorite.MR_findAll()
+        var ids = ""
+        for favorite in favorits{
+            print(favorite.article_id)
+            ids += "\(favorite.article_id)"
+            ids += ","
+        }
+        self.params["isPopular"] = "3"
+        self.params["id"] = ids
         self.loadArticle()
     }
     
+
     //MARK: -UITableViewDelegate,Datasorce
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -110,11 +89,22 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
             self.loadArticle()
         }
     }
-
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete{
+            let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopTableViewCell
+            if let articleId = cell.articleId{
+                let fav : Favorite? = Favorite.MR_findFirstByAttribute("article_id", withValue: articleId) as? Favorite
+                fav!.MR_deleteEntity()
+                setApiParameterWithFavorite()
+            }
+        }
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
 }

@@ -98,24 +98,46 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
         item4.actionBlock = {
             //Add Favorite
             let magicalContext = NSManagedObjectContext.MR_defaultContext()
-            let fav = Favorite.MR_createEntity() as! Favorite
-            fav.article_id = self.articleId
-            fav.name = self.actressName
-            let dateFormatter : NSDateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            let date = dateFormatter.dateFromString(self.articleDate)
-            if let d = date{
-                fav.date = d
+            
+            let searchFav : Favorite? = Favorite.MR_findFirstByAttribute("article_id", withValue: self.articleId) as? Favorite
+            
+            var alertString = "既に登録しています"
+            if (searchFav == nil){
+                let fav = Favorite.MR_createEntity() as! Favorite
+                fav.article_id = self.articleId
+                fav.name = self.actressName
+                let dateFormatter : NSDateFormatter = NSDateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let date = dateFormatter.dateFromString(self.articleDate)
+                if let d = date{
+                    fav.date = d
+                }
+                magicalContext.MR_saveOnlySelfAndWait()
+                alertString = "登録完了しました"
             }
-            magicalContext.MR_saveOnlySelfAndWait()
+            //show alert
+            let alert = UIAlertController(title: "", message: alertString, preferredStyle: .Alert)
+            let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alert.addAction(action)
+            self.presentViewController(alert, animated: true, completion: nil)
         }
         item5.actionBlock = {
-            //Add My Voice Actress
-            let magicalContext = NSManagedObjectContext.MR_defaultContext()
-            let myactress = MyVoiceActress.MR_createEntity() as! MyVoiceActress
-            myactress.name = self.actressName
-            myactress.date = NSDate()
-            magicalContext.MR_saveOnlySelfAndWait()
+            let searchActress : MyVoiceActress? = MyVoiceActress.MR_findFirstByAttribute("name", withValue: self.actressName) as? MyVoiceActress
+            var alertString = "既に登録しています"
+            if (searchActress == nil){
+                //Add My Voice Actress
+                let magicalContext = NSManagedObjectContext.MR_defaultContext()
+                let myactress = MyVoiceActress.MR_createEntity() as! MyVoiceActress
+                myactress.name = self.actressName
+                myactress.date = NSDate()
+                magicalContext.MR_saveOnlySelfAndWait()
+                alertString = "登録完了しました"
+            }
+            //show alert
+            let alert = UIAlertController(title: "", message: alertString, preferredStyle: .Alert)
+            let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alert.addAction(action)
+            self.presentViewController(alert, animated: true, completion: nil)
         }
         item6.actionBlock = {
             //Send Mail
