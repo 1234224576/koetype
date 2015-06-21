@@ -99,7 +99,6 @@ class FavoriteViewController: BaseViewController,UITableViewDelegate,UITableView
                 setApiParameterWithFavorite()
             }
         }
-        
     }
     
     override func didReceiveMemoryWarning() {

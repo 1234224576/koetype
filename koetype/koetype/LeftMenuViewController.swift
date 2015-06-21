@@ -41,7 +41,7 @@ class LeftMenuViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("LeftMenuTableViewCell", forIndexPath: indexPath) as! LeftMenuTableViewCell
-        
+
         switch indexPath.row{
             case Menu.New.rawValue:
                 cell.nameLabel.text = "新着記事"
@@ -89,7 +89,8 @@ class LeftMenuViewController: UIViewController,UITableViewDelegate,UITableViewDa
                     self.sideMenuViewController.setContentViewController(vc, animated: true)
                 
                 case Menu.MyActressList.rawValue:
-                    nc.postNotificationName("changeMode", object: self, userInfo:["Mode":"MyActressList"])
+                    let vc = UINavigationController(rootViewController: storyboard.instantiateViewControllerWithIdentifier("MyVoiceActressList")as! UIViewController)
+                    self.sideMenuViewController.setContentViewController(vc, animated: true)
                 case Menu.MyActressArticle.rawValue:
                     nc.postNotificationName("changeMode", object: self, userInfo:["Mode":"MyActressArticle"])
                 case Menu.Favorite.rawValue:

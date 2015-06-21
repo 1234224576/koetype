@@ -39,6 +39,7 @@
                     <connections>
                         <segue destination="w8O-fq-Uvk" kind="relationship" relationship="rootViewController" id="lz8-6i-ZkF"/>
                         <segue destination="VcV-ot-qrt" kind="show" id="nwp-gV-tRF"/>
+                        <segue destination="Lor-cl-ziI" kind="show" id="G5P-c7-i2l"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hxB-vO-GQM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -119,6 +120,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dO4-8C-x03" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1823" y="1266"/>
+        </scene>
+        <!--My Voice Actress List View Controller-->
+        <scene sceneID="Pd5-nu-lbG">
+            <objects>
+                <viewController storyboardIdentifier="MyVoiceActressList" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Lor-cl-ziI" customClass="MyVoiceActressListViewController" customModule="koetype" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ySd-4X-7pv"/>
+                        <viewControllerLayoutGuide type="bottom" id="K14-U6-3rS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="YNm-1Y-cYO">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ekH-xN-eph">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ekH-xN-eph" firstAttribute="top" secondItem="YNm-1Y-cYO" secondAttribute="top" id="A6Q-9g-86z"/>
+                            <constraint firstAttribute="trailing" secondItem="ekH-xN-eph" secondAttribute="trailing" id="OP1-nJ-skd"/>
+                            <constraint firstItem="K14-U6-3rS" firstAttribute="top" secondItem="ekH-xN-eph" secondAttribute="bottom" id="UHL-Ld-Sjp"/>
+                            <constraint firstItem="ekH-xN-eph" firstAttribute="leading" secondItem="YNm-1Y-cYO" secondAttribute="leading" id="ujG-W3-fJw"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="tableView" destination="ekH-xN-eph" id="UQl-es-LQI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bed-bj-AKj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1815" y="2080"/>
         </scene>
         <!--Main Web View Controller-->
         <scene sceneID="6oM-c8-rJP">
