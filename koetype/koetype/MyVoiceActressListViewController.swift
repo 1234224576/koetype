@@ -16,10 +16,14 @@ class MyVoiceActressListViewController: UIViewController,UITableViewDelegate,UIT
 
     @IBOutlet weak var tableView: UITableView!
     var actressList = []
+    var currentActressName = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         MagicalRecord.setupCoreDataStack()
         self.setupNavigation()
+        let backButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backButtonItem
+        
         self.title = "マイ声優一覧"
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         self.tableView.delegate = self
@@ -54,16 +58,11 @@ class MyVoiceActressListViewController: UIViewController,UITableViewDelegate,UIT
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        let mainWebViewController = self.storyboard?.instantiateViewControllerWithIdentifier("MainWebViewController") as! MainWebViewController
-//        let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopTableViewCell
-//        if let url = cell.url,name = cell.nameLabel.text,articleId = cell.articleId,date = cell.dateLabel.text{
-//            mainWebViewController.url = url
-//            mainWebViewController.actressName = name
-//            mainWebViewController.articleId = articleId
-//            mainWebViewController.articleDate = date
-//        }
-//        let navigationController = UINavigationController(rootViewController: mainWebViewController)
-//        self.presentViewController(navigationController, animated: true, completion: nil)
+        let cell = tableView.cellForRowAtIndexPath(indexPath)
+        if let name = cell?.textLabel?.text{
+            self.currentActressName = name
+            self.performSegueWithIdentifier("ListToDetail", sender: nil)
+        }
     }
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -76,6 +75,13 @@ class MyVoiceActressListViewController: UIViewController,UITableViewDelegate,UIT
                     self.loadActressData()
                 }
             }
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "ListToDetail"{
+            let nextViewController = segue.destinationViewController as! MyActressListDetailViewController
+            nextViewController.actressName = self.currentActressName
         }
     }
 

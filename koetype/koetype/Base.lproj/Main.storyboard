@@ -149,11 +149,46 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="tableView" destination="ekH-xN-eph" id="UQl-es-LQI"/>
+                        <segue destination="EWk-5s-5hK" kind="show" identifier="ListToDetail" id="6Ad-TQ-IHU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bed-bj-AKj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1815" y="2080"/>
+        </scene>
+        <!--My Actress List Detail View Controller-->
+        <scene sceneID="9Kt-gM-i65">
+            <objects>
+                <viewController id="EWk-5s-5hK" customClass="MyActressListDetailViewController" customModule="koetype" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="h8I-oH-l4o"/>
+                        <viewControllerLayoutGuide type="bottom" id="dWu-U3-Ljy"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="XCR-eV-vfp">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="U5E-4R-YZ6">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="U5E-4R-YZ6" firstAttribute="top" secondItem="XCR-eV-vfp" secondAttribute="topMargin" id="M9y-7X-SmK"/>
+                            <constraint firstItem="dWu-U3-Ljy" firstAttribute="top" secondItem="U5E-4R-YZ6" secondAttribute="bottom" id="Wdy-rM-kTa"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="U5E-4R-YZ6" secondAttribute="trailing" constant="-16" id="ciS-bA-oKv"/>
+                            <constraint firstItem="U5E-4R-YZ6" firstAttribute="leading" secondItem="XCR-eV-vfp" secondAttribute="leadingMargin" constant="-16" id="ohf-tf-ota"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="tableView" destination="U5E-4R-YZ6" id="C0w-A3-beu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8af-rB-hMM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2282" y="2080"/>
         </scene>
         <!--Main Web View Controller-->
         <scene sceneID="6oM-c8-rJP">
