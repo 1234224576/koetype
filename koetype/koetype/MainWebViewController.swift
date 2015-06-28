@@ -12,26 +12,32 @@ import MagicalRecord
 import Social
 import MessageUI
 
-class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMenuDelegate,UIGestureRecognizerDelegate {
+class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMenuDelegate,UIGestureRecognizerDelegate,UIScrollViewDelegate {
     var url = ""
     var webview = WKWebView()
     var verticalMenu = FCVerticalMenu()
     var actressName = ""
     var articleId = -1
     var articleDate = ""
-    
+    var scrollOffset:CGFloat = -1
     var progressView = UIProgressView(progressViewStyle: UIProgressViewStyle.Default)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.automaticallyAdjustsScrollViewInsets = false
+        
         self.setupNavigationBar()
         self.setupVerticalMenu()
         
-        self.webview.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
+        if let nav = self.navigationController?.navigationBar{
+            let margin = nav.frame.size.height + UIApplication.sharedApplication().statusBarFrame.height
+            self.webview.frame = CGRectMake(0, margin, self.view.frame.size.width, self.view.frame.size.height - margin)
+        }
+        
+        self.webview.scrollView.delegate = self;
         self.webview.navigationDelegate = self
         self.webview.allowsBackForwardNavigationGestures = true
-        
         self.webview.addObserver(self, forKeyPath: "estimatedProgress", options: .New, context: nil)
         self.webview.addObserver(self, forKeyPath: "title", options: .New, context: nil)
         self.webview.addObserver(self, forKeyPath: "loading", options: .New, context: nil)
@@ -202,6 +208,50 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
         if keyPath == "estimatedProgress"{
             self.progressView.setProgress(Float(self.webview.estimatedProgress), animated: true)
         }
+    }
+    
+    func hideNavigationBar(){
+        self.scrollOffset = -1
+        if let nav = self.navigationController?.navigationBar{
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
+                nav.frame = CGRectMake(nav.frame.origin.x, -nav.frame.size.height, nav.frame.size.width, nav.frame.size.height)
+                self.webview.frame = CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height)
+            }, completion: {(_:Bool) -> Void in
+                self.navigationController?.setNavigationBarHidden(true, animated: false)
+            })
+        }
+    }
+    func showNavigationBar(){
+        self.scrollOffset = -1
+        if let nav = self.navigationController?.navigationBar{
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
+                nav.frame = CGRectMake(nav.frame.origin.x,UIApplication.sharedApplication().statusBarFrame.height, nav.frame.size.width, nav.frame.size.height)
+            },completion:{(_:Bool) -> Void in
+                self.navigationController?.setNavigationBarHidden(false, animated: false)
+            })
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
+                let margin = nav.frame.size.height + UIApplication.sharedApplication().statusBarFrame.height
+                self.webview.frame = CGRectMake(0, margin, self.view.frame.size.width, self.view.frame.size.height - margin)
+            })
+        }
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView){
+        if scrollOffset == -1{
+            return
+        }
+        
+        if let isNavHidden = self.navigationController?.navigationBarHidden{
+            if !isNavHidden && self.scrollOffset < (scrollView.contentOffset.y){
+                self.hideNavigationBar()
+            }else if isNavHidden && self.scrollOffset > (scrollView.contentOffset.y){
+                self.showNavigationBar()
+            }
+        }
+    }
+    func scrollViewWillBeginDecelerating(scrollView: UIScrollView) {
+        self.scrollOffset = scrollView.contentOffset.y
+        print("\(self.scrollOffset)\n")
     }
     
     deinit{
