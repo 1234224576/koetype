@@ -221,9 +221,10 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 nav.frame = CGRectMake(nav.frame.origin.x, -nav.frame.size.height, nav.frame.size.width, nav.frame.size.height)
                 self.webview.frame = CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height)
+                self.progressView.frame = CGRectMake(0,0,self.view.frame.size.width,10)
             }, completion: {(_:Bool) -> Void in
                 self.navigationController?.setNavigationBarHidden(true, animated: false)
-                self.progressView.frame = CGRectMake(0,0,self.view.frame.size.width,10)
+                
 
             })
         }
