@@ -206,8 +206,13 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
         }
         
         if keyPath == "estimatedProgress"{
+            print(self.progressView.progress)
+            print("\n")
             self.progressView.setProgress(Float(self.webview.estimatedProgress), animated: true)
         }
+    }
+    func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        self.progressView.setProgress(0, animated: false)
     }
     
     func hideNavigationBar(){
@@ -218,6 +223,8 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
                 self.webview.frame = CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height)
             }, completion: {(_:Bool) -> Void in
                 self.navigationController?.setNavigationBarHidden(true, animated: false)
+                self.progressView.frame = CGRectMake(0,0,self.view.frame.size.width,10)
+
             })
         }
     }
@@ -228,6 +235,7 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
                 nav.frame = CGRectMake(nav.frame.origin.x,UIApplication.sharedApplication().statusBarFrame.height, nav.frame.size.width, nav.frame.size.height)
             },completion:{(_:Bool) -> Void in
                 self.navigationController?.setNavigationBarHidden(false, animated: false)
+                self.progressView.frame = CGRectMake(0,64,self.view.frame.size.width,10)
             })
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 let margin = nav.frame.size.height + UIApplication.sharedApplication().statusBarFrame.height
@@ -251,7 +259,6 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
     }
     func scrollViewWillBeginDecelerating(scrollView: UIScrollView) {
         self.scrollOffset = scrollView.contentOffset.y
-        print("\(self.scrollOffset)\n")
     }
     
     deinit{
