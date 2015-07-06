@@ -130,11 +130,6 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
             if self.isLoading{
                 return
             }
-            if let json = self.responseJsonData{
-                if self.page * kOnceLoadArticle > json.count{
-                    return
-                }
-            }
             self.page+=1
             self.loadArticle()
         }
