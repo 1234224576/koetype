@@ -12,7 +12,7 @@ import MagicalRecord
 import Social
 import MessageUI
 
-class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMenuDelegate,UIGestureRecognizerDelegate,UIScrollViewDelegate {
+class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMenuDelegate,UIGestureRecognizerDelegate,UIScrollViewDelegate,MFMailComposeViewControllerDelegate {
     var url = ""
     var webview = WKWebView()
     var verticalMenu = FCVerticalMenu()
@@ -159,7 +159,7 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
         }
         item6.actionBlock = {
             //Send Mail
-            if(MFMailComposeViewController.canSendMail()){
+            if(!MFMailComposeViewController.canSendMail()){
                 let alert = UIAlertController(title: "Error", message: "メーラーの起動に失敗しました。", preferredStyle:.Alert)
                 let okbutton = UIAlertAction(title: "OK", style:UIAlertActionStyle.Default, handler: {
                     action in
@@ -169,6 +169,7 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
                 self.presentViewController(alert, animated: true, completion: nil)
             }else{
                 let mail = MFMailComposeViewController()
+                mail.mailComposeDelegate = self
                 mail.setSubject("記事を通報")
                 mail.setToRecipients(["deeptoneworks@gmail.com"])
                 mail.setMessageBody("内容:\n\n対象URL:\(self.url)", isHTML: false)
@@ -181,7 +182,32 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
         self.verticalMenu.highlightedBackgroundColor = UIColor.whiteColor()
         
     }
-
+    //MARK-MFMailComposeDelegate
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        switch result.value {
+            case MFMailComposeResultSent.value:
+                let alert = UIAlertController(title: "送信しました。", message: "", preferredStyle:.Alert)
+                let okbutton = UIAlertAction(title: "OK", style:UIAlertActionStyle.Default, handler: {
+                    action in
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                })
+                alert.addAction(okbutton)
+                self.presentViewController(alert, animated: true, completion: nil)
+                break
+            case MFMailComposeResultFailed.value:
+                let alert = UIAlertController(title: "送信に失敗しました。", message: "", preferredStyle:.Alert)
+                let okbutton = UIAlertAction(title: "OK", style:UIAlertActionStyle.Default, handler: {
+                    action in
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                })
+                alert.addAction(okbutton)
+                self.presentViewController(alert, animated: true, completion: nil)
+                break
+            default:
+                break
+        }
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     
     func openVerticalMenu(){
         if self.verticalMenu.isOpen{
