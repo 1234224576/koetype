@@ -67,7 +67,7 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
             .responseSwiftyJSON({[weak self] (request, response, json, error) in
                 if let weakSelf = self{
                     weakSelf.isLoading = false;
-                    weakSelf.responseJsonData = json
+                    weakSelf.responseJsonData = weakSelf.deleteFutureArticle(json)
                     weakSelf.tableView.reloadData()
                     SVProgressHUD.dismiss()
                     if let p = weakSelf.tableView.pullToRefreshView{
@@ -75,6 +75,29 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
                     }
                 }
             })
+    }
+    
+    private func deleteFutureArticle(json:JSON?)->JSON{
+        var jsonDataArray :[JSON] = []
+        if let j = json{
+            
+            for (i,data) in j["feed"]{
+                let publishdateString = self.publishedStringToDate(data["published"].string!)
+                let dateStrings = publishdateString.componentsSeparatedByString("-")
+                let year = dateStrings[0]
+                let month = dateStrings[1]
+                let day = dateStrings[2]
+                let publishDate = NSDateComponents()
+                publishDate.month = month.toInt()!
+                publishDate.year = year.toInt()!
+                publishDate.day = day.toInt()!
+                let result:NSComparisonResult = NSDate().compare(NSCalendar.currentCalendar().dateFromComponents(publishDate)!)
+                if(result != NSComparisonResult.OrderedAscending){
+                    jsonDataArray.append(data)
+                }
+            }
+        }
+        return JSON(jsonDataArray);
     }
     
     //MARK: -SetApiParameters
@@ -92,12 +115,12 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TopTableViewCell", forIndexPath: indexPath) as! TopTableViewCell
         if let json = self.responseJsonData{
-            if json["feed"][indexPath.row] != nil{
-                cell.titleLabel.text = json["feed"][indexPath.row]["title"].string
-                cell.nameLabel.text = json["feed"][indexPath.row]["media"].string
-                cell.dateLabel.text = publishedStringToDate(json["feed"][indexPath.row]["published"].string!)
-                cell.url = json["feed"][indexPath.row]["link"].string
-                cell.articleId = json["feed"][indexPath.row]["id"].string?.toInt()
+            if json[indexPath.row] != nil{
+                cell.titleLabel.text = json[indexPath.row]["title"].string
+                cell.nameLabel.text = json[indexPath.row]["media"].string
+                cell.dateLabel.text = publishedStringToDate(json[indexPath.row]["published"].string!)
+                cell.url = json[indexPath.row]["link"].string
+                cell.articleId = json[indexPath.row]["id"].string?.toInt()
             }
         }
         return cell
@@ -108,7 +131,7 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
                 return
             }
             if let json = self.responseJsonData{
-                if self.page * kOnceLoadArticle > json["feed"].count{
+                if self.page * kOnceLoadArticle > json.count{
                     return
                 }
             }

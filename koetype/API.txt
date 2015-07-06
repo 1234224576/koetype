@@ -1,0 +1,13 @@
+
+limit：取得記事数を指定（デフォルト10）
+offset：指定件数を飛ばしてから記事を取得する（デフォルト0）
+isPopular：0で最新記事、1で人気記事を取得する、2で検索（声優のみ）,3でID検索（デフォルト0）
+kindPopular：0で今日・1で今週・2で今月の人気記事を取得する（デフォルト0）
+
+id検索について
+id[]=の形でidを配列でクエリになげることができる
+offsetは追加読み込み用のクエリ(offset+検索結果数がuntilに格納されるのでListViewの追加読み込みに対応)
+サンプルのURLのように気をつけてほしいのがidの昇順に結果が出力されるので、端末側のモデルに結果を格納するときは気をつけてください
+
+
+http://deeptoneworks.com/voice_actress/voice/public/voiceActress.json
