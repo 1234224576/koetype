@@ -58,7 +58,7 @@ class LeftMenuViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 cell.nameLabel.text = "My声優記事一覧"
                 cell.iconImageView.image = UIImage(named: "Menu_MyActressArticle")
             case Menu.Favorite.rawValue:
-                cell.nameLabel.text = "お気に入り"
+                cell.nameLabel.text = "お気に入り記事"
                 cell.iconImageView.image = UIImage(named: "Menu_Favorite")
             case Menu.Search.rawValue:
                 cell.nameLabel.text = "検索"
