@@ -92,6 +92,13 @@ class MyVoiceActressArticleViewController: BaseViewController,UITableViewDelegat
             self.loadArticle()
         }
     }
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let json = self.responseJsonData{
+            return min(self.page * kOnceLoadArticle,json["feed"].count)
+        }
+        return self.page * kOnceLoadArticle
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

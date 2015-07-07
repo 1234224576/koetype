@@ -82,6 +82,12 @@ class SearchViewController: BaseViewController,UISearchBarDelegate,UITableViewDe
             self.loadArticle()
         }
     }
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let json = self.responseJsonData{
+            return min(self.page * kOnceLoadArticle,json["feed"].count)
+        }
+        return self.page * kOnceLoadArticle
+    }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         self.setApiParameterWithFind(keyword: searchBar.text)
