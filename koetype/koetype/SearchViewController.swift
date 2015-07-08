@@ -9,7 +9,6 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
-import Alamofire_SwiftyJSON
 import SVProgressHUD
 class SearchViewController: BaseViewController,UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource {
 
@@ -36,14 +35,16 @@ class SearchViewController: BaseViewController,UISearchBarDelegate,UITableViewDe
         self.isLoading = true;
         self.params["limit"] = "\(self.page * kOnceLoadArticle)"
         Alamofire.request(.GET, baseUrl,parameters: self.params)
-            .responseSwiftyJSON({[weak self] (request, response, json, error) in
+            .responseJSON{[weak self] (request, response, json, error) in
                 if let weakSelf = self{
                     weakSelf.isLoading = false;
-                    weakSelf.responseJsonData = json
+                    if let j:AnyObject = json{
+                        weakSelf.responseJsonData = JSON(j)
+                    }
                     weakSelf.tableView.reloadData()
                     SVProgressHUD.dismiss()
                 }
-        })
+        }
     }
     
     func setApiParameterWithFind(#keyword:String){

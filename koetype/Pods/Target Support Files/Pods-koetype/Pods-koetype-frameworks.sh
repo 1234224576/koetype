@@ -49,7 +49,6 @@ code_sign() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Alamofire.framework'
-  install_framework 'Alamofire_SwiftyJSON.framework'
   install_framework 'MagicalRecord.framework'
   install_framework 'RESideMenu.framework'
   install_framework 'SVProgressHUD.framework'
@@ -58,7 +57,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Alamofire.framework'
-  install_framework 'Alamofire_SwiftyJSON.framework'
   install_framework 'MagicalRecord.framework'
   install_framework 'RESideMenu.framework'
   install_framework 'SVProgressHUD.framework'

@@ -1,4 +1,4 @@
-//  SwiftyJSON.swift
+//  .swift
 //
 //  Copyright (c) 2014 Ruoyu Fu, Pinglin Tang
 //
@@ -25,7 +25,7 @@ import Foundation
 // MARK: - Error
 
 ///Error domain
-public let ErrorDomain: String! = "SwiftyJSONErrorDomain"
+public let ErrorDomain: String! = "ErrorDomain"
 
 ///Error code
 public let ErrorUnsupportedType: Int! = 999

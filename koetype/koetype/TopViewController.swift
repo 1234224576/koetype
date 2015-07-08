@@ -8,12 +8,10 @@
 
 import UIKit
 import Alamofire
-import SwiftyJSON
-import Alamofire_SwiftyJSON
 import SVProgressHUD
 import SVPullToRefresh
 import MagicalRecord
-
+import SwiftyJSON
 class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataSource{
     
     @IBOutlet weak var tableView: UITableView!
@@ -64,17 +62,19 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
         print(self.params)
         self.params["limit"] = "\(self.page * kOnceLoadArticle)"
         Alamofire.request(.GET, baseUrl,parameters: self.params)
-            .responseSwiftyJSON({[weak self] (request, response, json, error) in
+            .responseJSON{[weak self] (request, response, json, error) in
                 if let weakSelf = self{
                     weakSelf.isLoading = false;
-                    weakSelf.responseJsonData = weakSelf.deleteFutureArticle(json)
+                    if let j:AnyObject = json{
+                        weakSelf.responseJsonData = weakSelf.deleteFutureArticle(JSON(j))
+                    }
                     weakSelf.tableView.reloadData()
                     SVProgressHUD.dismiss()
                     if let p = weakSelf.tableView.pullToRefreshView{
                         p.stopAnimating()
                     }
                 }
-            })
+            }
     }
     
     private func deleteFutureArticle(json:JSON?)->JSON{

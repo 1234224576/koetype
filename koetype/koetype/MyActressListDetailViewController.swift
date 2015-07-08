@@ -9,7 +9,6 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
-import Alamofire_SwiftyJSON
 import SVProgressHUD
 
 class MyActressListDetailViewController: BaseViewController,UITableViewDelegate,UITableViewDataSource {
@@ -43,14 +42,16 @@ class MyActressListDetailViewController: BaseViewController,UITableViewDelegate,
         self.params["keyword"] = self.actressName
         self.params["limit"] = "999"
         Alamofire.request(.GET, baseUrl,parameters: self.params)
-            .responseSwiftyJSON({[weak self] (request, response, json, error) in
+            .responseJSON{[weak self] (request, response, json, error) in
                 if let weakSelf = self{
                     weakSelf.isLoading = false;
-                    weakSelf.responseJsonData = json
+                    if let j:AnyObject = json{
+                        weakSelf.responseJsonData = JSON(j)
+                    }
                     weakSelf.tableView.reloadData()
                     SVProgressHUD.dismiss()
                 }
-        })
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
