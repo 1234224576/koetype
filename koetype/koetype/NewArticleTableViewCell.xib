@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="NewArticleTableViewCell" customModule="koetype" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="149.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sky" translatesAutoresizingMaskIntoConstraints="NO" id="jN9-LB-uKP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="149.5"/>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Menu_New" translatesAutoresizingMaskIntoConstraints="NO" id="Y8S-iv-CSv">
+                        <rect key="frame" x="38" y="50" width="50" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="50" id="OGU-ff-8KS"/>
+                            <constraint firstAttribute="height" constant="50" id="iEJ-Px-GgY"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="新着記事" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GeT-QN-Nrs">
+                        <rect key="frame" x="96" y="44" width="129" height="62"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="62" id="5GC-qk-J9w"/>
+                            <constraint firstAttribute="width" constant="129" id="ubl-QR-Nbc"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="37"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EvS-dC-xXU">
+                        <rect key="frame" x="8" y="0.5" width="312" height="149.5"/>
+                        <connections>
+                            <action selector="tapNewArticleMenu:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="SPU-7k-RVr"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="GeT-QN-Nrs" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="2EP-sC-whm"/>
+                    <constraint firstItem="GeT-QN-Nrs" firstAttribute="leading" secondItem="Y8S-iv-CSv" secondAttribute="trailing" constant="8" id="4Ys-Mh-wxq"/>
+                    <constraint firstItem="Y8S-iv-CSv" firstAttribute="centerY" secondItem="GeT-QN-Nrs" secondAttribute="centerY" id="7EX-Ll-dO0"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="jN9-LB-uKP" secondAttribute="trailing" constant="-8" id="8qT-ew-Buj"/>
+                    <constraint firstItem="GeT-QN-Nrs" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ZKW-6M-sWQ"/>
+                    <constraint firstItem="jN9-LB-uKP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-8" id="m9D-0d-oMx"/>
+                    <constraint firstItem="jN9-LB-uKP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-8" id="tQm-LM-l6h"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="jN9-LB-uKP" secondAttribute="bottom" constant="-8" id="wke-am-chG"/>
+                </constraints>
+            </tableViewCellContentView>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Menu_New" width="256" height="256"/>
+        <image name="sky" width="640" height="427"/>
+    </resources>
+</document>
