@@ -117,11 +117,11 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
             //Add Favorite
             let magicalContext = NSManagedObjectContext.MR_defaultContext()
             
-            let searchFav : Favorite? = Favorite.MR_findFirstByAttribute("article_id", withValue: self.articleId) as? Favorite
+            let searchFav : Favorite? = Favorite.MR_findFirstByAttribute("article_id", withValue: self.articleId)
             
             var alertString = "既に登録しています"
             if (searchFav == nil){
-                let fav = Favorite.MR_createEntity() as! Favorite
+                let fav = Favorite.MR_createEntity() as Favorite
                 fav.article_id = self.articleId
                 fav.name = self.actressName
                 let dateFormatter : NSDateFormatter = NSDateFormatter()
@@ -140,12 +140,12 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
             self.presentViewController(alert, animated: true, completion: nil)
         }
         item5.actionBlock = {
-            let searchActress : MyVoiceActress? = MyVoiceActress.MR_findFirstByAttribute("name", withValue: self.actressName) as? MyVoiceActress
+            let searchActress : MyVoiceActress? = MyVoiceActress.MR_findFirstByAttribute("name", withValue: self.actressName)
             var alertString = "既に登録しています"
             if (searchActress == nil){
                 //Add My Voice Actress
                 let magicalContext = NSManagedObjectContext.MR_defaultContext()
-                let myactress = MyVoiceActress.MR_createEntity() as! MyVoiceActress
+                let myactress = MyVoiceActress.MR_createEntity() as MyVoiceActress
                 myactress.name = self.actressName
                 myactress.date = NSDate()
                 magicalContext.MR_saveOnlySelfAndWait()
@@ -183,9 +183,9 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
         
     }
     //MARK-MFMailComposeDelegate
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
-        switch result.value {
-            case MFMailComposeResultSent.value:
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        switch result.rawValue {
+            case MFMailComposeResultSent.rawValue:
                 let alert = UIAlertController(title: "送信しました。", message: "", preferredStyle:.Alert)
                 let okbutton = UIAlertAction(title: "OK", style:UIAlertActionStyle.Default, handler: {
                     action in
@@ -194,7 +194,7 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
                 alert.addAction(okbutton)
                 self.presentViewController(alert, animated: true, completion: nil)
                 break
-            case MFMailComposeResultFailed.value:
+            case MFMailComposeResultFailed.rawValue:
                 let alert = UIAlertController(title: "送信に失敗しました。", message: "", preferredStyle:.Alert)
                 let okbutton = UIAlertAction(title: "OK", style:UIAlertActionStyle.Default, handler: {
                     action in
@@ -221,7 +221,7 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
     }
 
     
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         
         if keyPath == "title"{
             self.title = self.webview.title
@@ -232,8 +232,8 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
         }
         
         if keyPath == "estimatedProgress"{
-            print(self.progressView.progress)
-            print("\n")
+            print(self.progressView.progress, terminator: "")
+            print("\n", terminator: "")
             self.progressView.setProgress(Float(self.webview.estimatedProgress), animated: true)
         }
     }

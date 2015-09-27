@@ -1,27 +1,35 @@
 PODS:
-  - Alamofire (1.2.2)
-  - MagicalRecord (2.2):
-    - MagicalRecord/Core (= 2.2)
-  - MagicalRecord/Core (2.2)
+  - Alamofire (2.0.2)
+  - MagicalRecord (2.3.0)
   - RESideMenu (4.0.7)
   - SVProgressHUD (1.1.3)
   - SVPullToRefresh (0.4.1)
-  - SwiftyJSON (2.2.0)
+  - SwiftyJSON (2.2.1)
 
 DEPENDENCIES:
-  - Alamofire (~> 1.2)
+  - Alamofire (~> 2.0)
   - MagicalRecord
   - RESideMenu (~> 4.0.7)
   - SVProgressHUD
   - SVPullToRefresh (~> 0.4.1)
-  - SwiftyJSON (~> 2.2.0)
+  - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`, branch `xcode7`)
+
+EXTERNAL SOURCES:
+  SwiftyJSON:
+    :branch: xcode7
+    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
+
+CHECKOUT OPTIONS:
+  SwiftyJSON:
+    :commit: 6eb4cda062fa09c4658e4184f92d822058f226e3
+    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
 
 SPEC CHECKSUMS:
-  Alamofire: 11a6022f5089887d92ffb5a3014c97a0a915ab98
-  MagicalRecord: f8a56bb87ab6552f20c4bb8681a1958a197ea3cd
+  Alamofire: 8edbab00802a752bb5240cc2abe70e7e881488ad
+  MagicalRecord: 89eb7d7ead39fb37f01c3d010665ee94d17f8dba
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   SVPullToRefresh: ba2e718695a43253d8bea6852d2960097dc15d8c
-  SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
+  SwiftyJSON: ae2d0a3d68025d136602a33c4ee215091ced3e33
 
-COCOAPODS: 0.37.1
+COCOAPODS: 0.38.2

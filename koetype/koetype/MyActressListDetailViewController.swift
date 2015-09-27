@@ -29,7 +29,7 @@ class MyActressListDetailViewController: BaseViewController,UITableViewDelegate,
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(animated: Bool) {
-        if let indexPath = self.tableView.indexPathForSelectedRow(){
+        if let indexPath = self.tableView.indexPathForSelectedRow{
             self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
     }
@@ -42,14 +42,15 @@ class MyActressListDetailViewController: BaseViewController,UITableViewDelegate,
         self.params["keyword"] = self.actressName
         self.params["limit"] = "999"
         Alamofire.request(.GET, baseUrl,parameters: self.params)
-            .responseJSON{[weak self] (request, response, json, error) in
-                if let weakSelf = self{
-                    weakSelf.isLoading = false;
-                    if let j:AnyObject = json{
-                        weakSelf.responseJsonData = JSON(j)
-                    }
-                    weakSelf.tableView.reloadData()
+            .responseJSON { (_, _, result) in
+                switch result {
+                case .Success(let data):
+                    self.isLoading = false;
+                    self.responseJsonData = JSON(data)
+                    self.tableView.reloadData()
                     SVProgressHUD.dismiss()
+                case .Failure(_, let error):
+                    print("Request failed with error: \(error)")
                 }
         }
     }
@@ -62,7 +63,7 @@ class MyActressListDetailViewController: BaseViewController,UITableViewDelegate,
                 cell.nameLabel.text = json["feed"][indexPath.row]["media"].string
                 cell.dateLabel.text = publishedStringToDate(json["feed"][indexPath.row]["published"].string!)
                 cell.url = json["feed"][indexPath.row]["link"].string
-                cell.articleId = json["feed"][indexPath.row]["id"].string?.toInt()
+                cell.articleId = Int((json["feed"][indexPath.row]["id"].string)!)
             }
         }
         return cell

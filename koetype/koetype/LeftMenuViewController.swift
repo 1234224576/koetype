@@ -91,23 +91,23 @@ class LeftMenuViewController: UIViewController,UITableViewDelegate,UITableViewDa
                     self.sideMenuViewController.setContentViewController(vc, animated: true)
                 
                 case Menu.MyActressList.rawValue:
-                    let vc = UINavigationController(rootViewController: storyboard.instantiateViewControllerWithIdentifier("MyVoiceActressList")as! UIViewController)
+                    let vc = UINavigationController(rootViewController: storyboard.instantiateViewControllerWithIdentifier("MyVoiceActressList"))
                     self.sideMenuViewController.setContentViewController(vc, animated: true)
                 case Menu.MyActressArticle.rawValue:
-                    let vc = UINavigationController(rootViewController: storyboard.instantiateViewControllerWithIdentifier("MyVoiceActressArticle")as! UIViewController)
+                    let vc = UINavigationController(rootViewController: storyboard.instantiateViewControllerWithIdentifier("MyVoiceActressArticle"))
                     self.sideMenuViewController.setContentViewController(vc, animated: true)
                 case Menu.Favorite.rawValue:
-                    let vc = UINavigationController(rootViewController: storyboard.instantiateViewControllerWithIdentifier("FavoriteViewController")as! UIViewController)
+                    let vc = UINavigationController(rootViewController: storyboard.instantiateViewControllerWithIdentifier("FavoriteViewController"))
                     self.sideMenuViewController.setContentViewController(vc, animated: true)
                 case Menu.Search.rawValue:
-                    let vc = UINavigationController(rootViewController: storyboard.instantiateViewControllerWithIdentifier("SearchViewController")as! UIViewController)
+                    let vc = UINavigationController(rootViewController: storyboard.instantiateViewControllerWithIdentifier("SearchViewController"))
                     self.sideMenuViewController.setContentViewController(vc, animated: true)
                     break
 //                case Menu.Setting.rawValue:
 //                    //画面遷移
 //                    break
                 default:
-                    print("notification error")
+                    print("notification error", terminator: "")
             }
         }
         self.sideMenuViewController.hideMenuViewController()

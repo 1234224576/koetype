@@ -30,7 +30,7 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
         self.loadArticle()
     }
     override func viewWillAppear(animated: Bool) {
-        if let indexPath = self.tableView.indexPathForSelectedRow(){
+        if let indexPath = self.tableView.indexPathForSelectedRow{
             self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
     }
@@ -59,18 +59,22 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
     
     func loadArticle(){
         self.isLoading = true;
-        print(self.params)
+        print(self.params, terminator: "")
         self.params["limit"] = "\(self.page * kOnceLoadArticle)"
         Alamofire.request(.GET, baseUrl,parameters: self.params)
-            .responseJSON{[weak self] (request, response, json, error) in
-                if let weakSelf = self{
-                    weakSelf.isLoading = false;
-                    if let j:AnyObject = json{
-                        weakSelf.responseJsonData = weakSelf.deleteFutureArticle(JSON(j))
-                    }
-                    weakSelf.tableView.reloadData()
+            .responseJSON {(request, response, result) -> Void in
+                switch result {
+                case .Success(let data):
+                    self.isLoading = false
+                    self.responseJsonData = self.deleteFutureArticle(JSON(data))
+                    self.tableView.reloadData()
                     SVProgressHUD.dismiss()
-                    if let p = weakSelf.tableView.pullToRefreshView{
+                    if let p = self.tableView.pullToRefreshView{
+                        p.stopAnimating()
+                    }
+                case .Failure(_,_):
+                    SVProgressHUD.dismiss()
+                    if let p = self.tableView.pullToRefreshView{
                         p.stopAnimating()
                     }
                 }
@@ -88,9 +92,9 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
                 let month = dateStrings[1]
                 let day = dateStrings[2]
                 let publishDate = NSDateComponents()
-                publishDate.month = month.toInt()!
-                publishDate.year = year.toInt()!
-                publishDate.day = day.toInt()!
+                publishDate.month = Int(month)!
+                publishDate.year = Int(year)!
+                publishDate.day = Int(day)!
                 let result:NSComparisonResult = NSDate().compare(NSCalendar.currentCalendar().dateFromComponents(publishDate)!)
                 if(result != NSComparisonResult.OrderedAscending){
                     jsonDataArray.append(data)
@@ -115,12 +119,13 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TopTableViewCell", forIndexPath: indexPath) as! TopTableViewCell
         if let json = self.responseJsonData{
+            print(json[indexPath.row] )
             if json[indexPath.row] != nil{
                 cell.titleLabel.text = json[indexPath.row]["title"].string
                 cell.nameLabel.text = json[indexPath.row]["media"].string
                 cell.dateLabel.text = publishedStringToDate(json[indexPath.row]["published"].string!)
                 cell.url = json[indexPath.row]["link"].string
-                cell.articleId = json[indexPath.row]["id"].string?.toInt()
+                cell.articleId = Int((json[indexPath.row]["id"].string)!)
             }
         }
         return cell

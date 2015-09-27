@@ -29,7 +29,7 @@ class FavoriteViewController: BaseViewController,UITableViewDelegate,UITableView
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(animated: Bool) {
-        if let indexPath = self.tableView.indexPathForSelectedRow(){
+        if let indexPath = self.tableView.indexPathForSelectedRow{
             self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
     }
@@ -37,26 +37,27 @@ class FavoriteViewController: BaseViewController,UITableViewDelegate,UITableView
     func loadArticle(){
         self.isLoading = true;
         
-        print(self.params)
+        print(self.params, terminator: "")
         self.params["limit"] = "\(self.page * kOnceLoadArticle)"
         Alamofire.request(.GET, baseUrl,parameters: self.params)
-            .responseJSON{[weak self] (request, response, json, error) in
-                if let weakSelf = self{
-                    weakSelf.isLoading = false;
-                    if let j:AnyObject = json{
-                        weakSelf.responseJsonData = JSON(j)
-                    }
-                    weakSelf.tableView.reloadData()
+            .responseJSON { (_, _, result) in
+                switch result {
+                case .Success(let data):
+                    self.isLoading = false;
+                    self.responseJsonData = JSON(data)
+                    self.tableView.reloadData()
                     SVProgressHUD.dismiss()
+                case .Failure(_, let error):
+                    print("Request failed with error: \(error)")
                 }
-            }
+        }
     }
     
     func setApiParameterWithFavorite(){
         let favorits = Favorite.MR_findAll()
         var ids = ""
         for favorite in favorits{
-            print(favorite.article_id)
+            print(favorite.article_id, terminator: "")
             ids += "\(favorite.article_id)"
             ids += ","
         }
@@ -76,7 +77,7 @@ class FavoriteViewController: BaseViewController,UITableViewDelegate,UITableView
                 cell.nameLabel.text = json["feed"][indexPath.row]["media"].string
                 cell.dateLabel.text = publishedStringToDate(json["feed"][indexPath.row]["published"].string!)
                 cell.url = json["feed"][indexPath.row]["link"].string
-                cell.articleId = json["feed"][indexPath.row]["id"].string?.toInt()
+                cell.articleId = Int((json["feed"][indexPath.row]["id"].string)!)
             }
         }
         return cell

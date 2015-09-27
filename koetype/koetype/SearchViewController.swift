@@ -27,7 +27,7 @@ class SearchViewController: BaseViewController,UISearchBarDelegate,UITableViewDe
         self.setApiParameterWithFind(keyword:"")
     }
     override func viewWillAppear(animated: Bool) {
-        if let indexPath = self.tableView.indexPathForSelectedRow(){
+        if let indexPath = self.tableView.indexPathForSelectedRow{
             self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
     }
@@ -35,19 +35,20 @@ class SearchViewController: BaseViewController,UISearchBarDelegate,UITableViewDe
         self.isLoading = true;
         self.params["limit"] = "\(self.page * kOnceLoadArticle)"
         Alamofire.request(.GET, baseUrl,parameters: self.params)
-            .responseJSON{[weak self] (request, response, json, error) in
-                if let weakSelf = self{
-                    weakSelf.isLoading = false;
-                    if let j:AnyObject = json{
-                        weakSelf.responseJsonData = JSON(j)
-                    }
-                    weakSelf.tableView.reloadData()
+            .responseJSON { (_, _, result) in
+                switch result {
+                case .Success(let data):
+                    self.isLoading = false;
+                    self.responseJsonData = JSON(data)
+                    self.tableView.reloadData()
                     SVProgressHUD.dismiss()
+                case .Failure(_, let error):
+                    print("Request failed with error: \(error)")
                 }
         }
     }
     
-    func setApiParameterWithFind(#keyword:String){
+    func setApiParameterWithFind(keyword keyword:String){
         self.params["isPopular"] = "2"
         self.params["keyword"] = keyword
         self.loadArticle()
@@ -64,7 +65,7 @@ class SearchViewController: BaseViewController,UISearchBarDelegate,UITableViewDe
                 cell.nameLabel.text = json["feed"][indexPath.row]["media"].string
                 cell.dateLabel.text = publishedStringToDate(json["feed"][indexPath.row]["published"].string!)
                 cell.url = json["feed"][indexPath.row]["link"].string
-                cell.articleId = json["feed"][indexPath.row]["id"].string?.toInt()
+                cell.articleId = Int((json["feed"][indexPath.row]["id"].string)!)
             }
         }
         return cell
@@ -91,7 +92,7 @@ class SearchViewController: BaseViewController,UISearchBarDelegate,UITableViewDe
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        self.setApiParameterWithFind(keyword: searchBar.text)
+        self.setApiParameterWithFind(keyword: searchBar.text!)
         searchBar.resignFirstResponder()
     }
 

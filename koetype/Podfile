@@ -4,8 +4,8 @@ platform :ios, '8.0'
 use_frameworks!
 target 'koetype' do
 pod 'MagicalRecord'
-pod 'Alamofire', '~> 1.2'
-pod 'SwiftyJSON', '~> 2.2.0'
+pod 'Alamofire', '~> 2.0'
+pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git', :branch => 'xcode7'
 # pod 'Alamofire-SwiftyJSON', :git => "https://github.com/SwiftyJSON/Alamofire-SwiftyJSON.git"
 pod 'RESideMenu', '~> 4.0.7'
 pod 'SVProgressHUD'

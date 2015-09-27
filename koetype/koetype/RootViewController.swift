@@ -21,8 +21,8 @@ class RootViewController: RESideMenu,RESideMenuDelegate {
         self.contentViewShadowEnabled = true
         
         if let storyboard = self.storyboard{
-            self.contentViewController = storyboard.instantiateViewControllerWithIdentifier("contentViewController") as! UIViewController
-            self.leftMenuViewController = storyboard.instantiateViewControllerWithIdentifier("leftMenuViewController") as! UIViewController
+            self.contentViewController = storyboard.instantiateViewControllerWithIdentifier("contentViewController") 
+            self.leftMenuViewController = storyboard.instantiateViewControllerWithIdentifier("leftMenuViewController") 
             self.backgroundImage = UIImage(named: "Back_SkyBlue")
         }
     }
