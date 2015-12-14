@@ -12,4 +12,5 @@
 #import "FCVerticalMenu.h"
 #import "Favorite.h"
 #import "MyVoiceActress.h"
+#import "NCMB.h"
 #endif

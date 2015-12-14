@@ -18,6 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        
+        //NCMB Settings
+        NCMB.setApplicationKey("66ebed66bea6dddd356d810cdec2900e7eaabeb28cef936baeb75e710ab0dd94", clientKey: "bebe5e1005712bb8b7255d4ff588fbb94218974814e6a7efb6d6421b8c133b53")
+        
+        
+        
         return true
     }
 
