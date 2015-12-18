@@ -22,11 +22,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //NCMB Settings
         NCMB.setApplicationKey("66ebed66bea6dddd356d810cdec2900e7eaabeb28cef936baeb75e710ab0dd94", clientKey: "bebe5e1005712bb8b7255d4ff588fbb94218974814e6a7efb6d6421b8c133b53")
         
+
+        let userNotificationTypes:UIUserNotificationType = [.Alert,.Badge,.Sound];
         
+        let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
+        application.registerUserNotificationSettings(settings)
+        application.registerForRemoteNotifications()
+    
+        
+        // アプリ起動時のプッシュ通知
+        if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
+            print("Remote Notification \(remoteNotification)")
+        }
         
         return true
     }
-
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        let installation = NCMBInstallation.currentInstallation()
+        installation.setDeviceTokenFromData(deviceToken)
+        installation.saveInBackgroundWithBlock(nil)
+    }
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo:[NSObject : AnyObject],
+        fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void){
+            print("User Info \(userInfo)")
+    }
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
