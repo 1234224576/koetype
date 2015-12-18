@@ -130,7 +130,7 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
                 if let d = date{
                     fav.date = d
                 }
-                magicalContext.MR_saveOnlySelfAndWait()
+                magicalContext.MR_saveToPersistentStoreAndWait()
                 alertString = "登録完了しました"
             }
             //show alert
@@ -148,7 +148,8 @@ class MainWebViewController: UIViewController,WKNavigationDelegate,FCVerticalMen
                 let myactress = MyVoiceActress.MR_createEntity() as MyVoiceActress
                 myactress.name = self.actressName
                 myactress.date = NSDate()
-                magicalContext.MR_saveOnlySelfAndWait()
+                magicalContext.MR_saveToPersistentStoreAndWait()
+                NCMBService().synchronizedFavoriteActoress()
                 alertString = "登録完了しました"
             }
             //show alert

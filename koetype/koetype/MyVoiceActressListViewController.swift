@@ -75,10 +75,13 @@ class MyVoiceActressListViewController: UIViewController,UITableViewDelegate,UIT
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete{
             let cell = tableView.cellForRowAtIndexPath(indexPath)
+            let magicalContext = NSManagedObjectContext.MR_defaultContext()
             if let name = cell?.textLabel?.text{
-                let actress : MyVoiceActress? = MyVoiceActress.MR_findFirstByAttribute("name", withValue: name) as? MyVoiceActress
+                let actress : MyVoiceActress? = MyVoiceActress.MR_findFirstByAttribute("name", withValue: name)
                 if let a = actress{
                     a.MR_deleteEntity()
+                    magicalContext.MR_saveToPersistentStoreAndWait()
+                    NCMBService().synchronizedFavoriteActoress()
                     self.loadActressData()
                 }
             }

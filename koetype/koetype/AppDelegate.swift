@@ -133,7 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             var error: NSError? = nil
             if moc.hasChanges {
                 do {
-                    try moc.save()
+                    moc.MR_saveToPersistentStoreAndWait()
                 } catch let error1 as NSError {
                     error = error1
                     // Replace this implementation with code to handle the error appropriately.

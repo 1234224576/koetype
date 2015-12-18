@@ -11,35 +11,53 @@ import Alamofire
 import MagicalRecord
 import SwiftyJSON
 
+enum ArticleProviderError : ErrorType{
+    case FailedAPIRerquest
+}
+
 class ArticleProvider {
-//    let apiUrl = "http://deeptoneworks.com/voice_actress/voice/public/voiceActress.json"
-//    init(){
-//        
-//    }
-//    
-//    func fetchArticleAPI(params:Dictionary<String,String>,callback:(Double) -> ()){
-//        
-//            Alamofire.request(.GET, apiUrl,parameters: params)
-//                .responseJSON {(request, response, result) -> Void in
-//                    switch result {
-//                    case .Success(let data):
-//                        self.isLoading = false
-//                        self.responseJsonData = self.deleteFutureArticle(JSON(data))
-//                        self.tableView.reloadData()
-//                        SVProgressHUD.dismiss()
-//                        if let p = self.tableView.pullToRefreshView{
-//                            p.stopAnimating()
-//                        }
-//                    case .Failure(_,_):
-//                        SVProgressHUD.dismiss()
-//                        if let p = self.tableView.pullToRefreshView{
-//                            p.stopAnimating()
-//                        }
-//                    }
-//            }
-//
-//        
-//    }
+    let apiUrl = "http://deeptoneworks.com/voice_actress/voice/public/voiceActress.json"
+  
+    func fetchArticle(params:Dictionary<String,AnyObject>,callback:(JSON?,ArticleProviderError?) -> ()){
+        
+            Alamofire.request(.GET, apiUrl,parameters: params)
+                .responseJSON {(request, response, result) -> Void  in
+                    switch result {
+                    case .Success(let data):
+                        let json = self.deleteFutureArticle(JSON(data))
+                        callback(json,nil)
+                    case .Failure(_,_):
+                        callback(nil,.FailedAPIRerquest)
+                    }
+            }
+    }
+    
+    private func deleteFutureArticle(json:JSON?)->JSON{
+        var jsonDataArray :[JSON] = []
+        if let j = json{
+            for (_,data) in j["feed"]{
+                let publishdateString = self.publishedStringToDate(data["published"].string!)
+                let dateStrings = publishdateString.componentsSeparatedByString("-")
+                let year = dateStrings[0]
+                let month = dateStrings[1]
+                let day = dateStrings[2]
+                let publishDate = NSDateComponents()
+                publishDate.month = Int(month)!
+                publishDate.year = Int(year)!
+                publishDate.day = Int(day)!
+                let result:NSComparisonResult = NSDate().compare(NSCalendar.currentCalendar().dateFromComponents(publishDate)!)
+                if(result != NSComparisonResult.OrderedAscending){
+                    jsonDataArray.append(data)
+                }
+            }
+        }
+        return JSON(jsonDataArray);
+    }
+    private func publishedStringToDate(publishStr:String)->String{
+        let dateStr = (publishStr as NSString).substringToIndex(10)
+        return dateStr
+    }
+
 }
 
 //func loadArticle(){

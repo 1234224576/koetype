@@ -41,29 +41,23 @@ class MyActressListDetailViewController: BaseViewController,UITableViewDelegate,
         self.params["isPopular"] = "2"
         self.params["keyword"] = self.actressName
         self.params["limit"] = "999"
-        Alamofire.request(.GET, baseUrl,parameters: self.params)
-            .responseJSON { (_, _, result) in
-                switch result {
-                case .Success(let data):
-                    self.isLoading = false;
-                    self.responseJsonData = JSON(data)
-                    self.tableView.reloadData()
-                    SVProgressHUD.dismiss()
-                case .Failure(_, let error):
-                    print("Request failed with error: \(error)")
-                }
+        ArticleProvider().fetchArticle(self.params){(json:JSON?,error:ArticleProviderError?) -> Void in
+            self.isLoading = false;
+            self.responseJsonData = json
+            self.tableView.reloadData()
+            SVProgressHUD.dismiss()
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TopTableViewCell", forIndexPath: indexPath) as! TopTableViewCell
         if let json = self.responseJsonData{
-            if json["feed"][indexPath.row] != nil{
-                cell.titleLabel.text = json["feed"][indexPath.row]["title"].string
-                cell.nameLabel.text = json["feed"][indexPath.row]["media"].string
-                cell.dateLabel.text = publishedStringToDate(json["feed"][indexPath.row]["published"].string!)
-                cell.url = json["feed"][indexPath.row]["link"].string
-                cell.articleId = Int((json["feed"][indexPath.row]["id"].string)!)
+            if json[indexPath.row] != nil{
+                cell.titleLabel.text = json[indexPath.row]["title"].string
+                cell.nameLabel.text = json[indexPath.row]["media"].string
+                cell.dateLabel.text = publishedStringToDate(json[indexPath.row]["published"].string!)
+                cell.url = json[indexPath.row]["link"].string
+                cell.articleId = Int((json[indexPath.row]["id"].string)!)
             }
         }
         return cell
@@ -71,7 +65,7 @@ class MyActressListDetailViewController: BaseViewController,UITableViewDelegate,
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let json = self.responseJsonData{
 
-            return json["feed"].count
+            return json.count
         }
         return 0
     }

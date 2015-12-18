@@ -38,18 +38,11 @@ class MyVoiceActressArticleViewController: BaseViewController,UITableViewDelegat
     func loadArticle(){
         self.isLoading = true;
         self.params["limit"] = "\(self.page * kOnceLoadArticle)"
-        Alamofire.request(.GET, baseUrl,parameters: self.params)
-            .responseJSON {(request, response, result) -> Void in
-                switch result {
-                case .Success(let data):
-                    self.isLoading = false
-                    self.responseJsonData = JSON(data)
-                    self.tableView.reloadData()
-                    SVProgressHUD.dismiss()
-                case .Failure(_,_):
-                    SVProgressHUD.dismiss()
-                }
-                
+        ArticleProvider().fetchArticle(self.params){(json:JSON?,error:ArticleProviderError?) -> Void in
+            self.isLoading = false;
+            self.responseJsonData = json
+            self.tableView.reloadData()
+            SVProgressHUD.dismiss()
         }
     }
     func setApiParameterWithFavorite(){
@@ -70,12 +63,12 @@ class MyVoiceActressArticleViewController: BaseViewController,UITableViewDelegat
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TopTableViewCell", forIndexPath: indexPath) as! TopTableViewCell
         if let json = self.responseJsonData{
-            if json["feed"][indexPath.row] != nil{
-                cell.titleLabel.text = json["feed"][indexPath.row]["title"].string
-                cell.nameLabel.text = json["feed"][indexPath.row]["media"].string
-                cell.dateLabel.text = publishedStringToDate(json["feed"][indexPath.row]["published"].string!)
-                cell.url = json["feed"][indexPath.row]["link"].string
-                cell.articleId = Int((json["feed"][indexPath.row]["id"].string)!)
+            if json[indexPath.row] != nil{
+                cell.titleLabel.text = json[indexPath.row]["title"].string
+                cell.nameLabel.text = json[indexPath.row]["media"].string
+                cell.dateLabel.text = publishedStringToDate(json[indexPath.row]["published"].string!)
+                cell.url = json[indexPath.row]["link"].string
+                cell.articleId = Int((json[indexPath.row]["id"].string)!)
             }
         }
         return cell
@@ -86,7 +79,7 @@ class MyVoiceActressArticleViewController: BaseViewController,UITableViewDelegat
                 return
             }
             if let json = self.responseJsonData{
-                if self.page * kOnceLoadArticle > json["feed"].count{
+                if self.page * kOnceLoadArticle > json.count{
                     return
                 }
             }
@@ -96,7 +89,7 @@ class MyVoiceActressArticleViewController: BaseViewController,UITableViewDelegat
     }
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let json = self.responseJsonData{
-            return min(self.page * kOnceLoadArticle,json["feed"].count)
+            return min(self.page * kOnceLoadArticle,json.count)
         }
         return self.page * kOnceLoadArticle
     }

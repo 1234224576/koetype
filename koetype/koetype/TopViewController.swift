@@ -30,6 +30,7 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
         self.loadArticle()
     }
     override func viewWillAppear(animated: Bool) {
+        
         if let indexPath = self.tableView.indexPathForSelectedRow{
             self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
@@ -59,49 +60,16 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
     
     func loadArticle(){
         self.isLoading = true;
-        print(self.params, terminator: "")
         self.params["limit"] = "\(self.page * kOnceLoadArticle)"
-        Alamofire.request(.GET, baseUrl,parameters: self.params)
-            .responseJSON {(request, response, result) -> Void in
-                switch result {
-                case .Success(let data):
-                    self.isLoading = false
-                    self.responseJsonData = self.deleteFutureArticle(JSON(data))
-                    self.tableView.reloadData()
-                    SVProgressHUD.dismiss()
-                    if let p = self.tableView.pullToRefreshView{
-                        p.stopAnimating()
-                    }
-                case .Failure(_,_):
-                    SVProgressHUD.dismiss()
-                    if let p = self.tableView.pullToRefreshView{
-                        p.stopAnimating()
-                    }
-                }
-            }
-    }
-    
-    private func deleteFutureArticle(json:JSON?)->JSON{
-        var jsonDataArray :[JSON] = []
-        if let j = json{
-            
-            for (i,data) in j["feed"]{
-                let publishdateString = self.publishedStringToDate(data["published"].string!)
-                let dateStrings = publishdateString.componentsSeparatedByString("-")
-                let year = dateStrings[0]
-                let month = dateStrings[1]
-                let day = dateStrings[2]
-                let publishDate = NSDateComponents()
-                publishDate.month = Int(month)!
-                publishDate.year = Int(year)!
-                publishDate.day = Int(day)!
-                let result:NSComparisonResult = NSDate().compare(NSCalendar.currentCalendar().dateFromComponents(publishDate)!)
-                if(result != NSComparisonResult.OrderedAscending){
-                    jsonDataArray.append(data)
-                }
+        ArticleProvider().fetchArticle(self.params){(json:JSON?,error:ArticleProviderError?) -> Void in
+            self.isLoading = false
+            self.responseJsonData = json
+            self.tableView.reloadData()
+            SVProgressHUD.dismiss()
+            if let p = self.tableView.pullToRefreshView{
+                p.stopAnimating()
             }
         }
-        return JSON(jsonDataArray);
     }
     
     //MARK: -SetApiParameters
