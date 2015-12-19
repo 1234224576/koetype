@@ -12,7 +12,7 @@ import SwiftyJSON
 import SVProgressHUD
 import MagicalRecord
 
-class BaseViewController: UIViewController {
+class BaseViewController: UIViewController{
     
     let baseUrl = "http://deeptoneworks.com/voice_actress/voice/public/voiceActress.json"
     var isLoading = false;
@@ -23,7 +23,7 @@ class BaseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
     
@@ -63,6 +63,9 @@ class BaseViewController: UIViewController {
         let dateStr = (publishStr as NSString).substringToIndex(10)
         return dateStr
     }
+    
+  
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

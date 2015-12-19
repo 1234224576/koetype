@@ -15,7 +15,7 @@ import MagicalRecord
 class FavoriteViewController: BaseViewController,UITableViewDelegate,UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
-    
+    let longPressService = LongPressService()
     override func viewDidLoad() {
         super.viewDidLoad()
         MagicalRecord.setupCoreDataStack()
@@ -25,6 +25,7 @@ class FavoriteViewController: BaseViewController,UITableViewDelegate,UITableView
         self.tableView.delegate = self
         self.tableView.dataSource = self
         SVProgressHUD.show()
+        longPressService.setUpLongPressRecognizer(self, tableView: tableView)
         self.setApiParameterWithFavorite()
         // Do any additional setup after loading the view.
     }

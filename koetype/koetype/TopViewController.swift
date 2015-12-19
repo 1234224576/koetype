@@ -17,14 +17,19 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
     @IBOutlet weak var tableView: UITableView!
     var isNewMode = true
     
+    let longPressService = LongPressService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         MagicalRecord.setupCoreDataStack()
         super.setupNavigation()
-
+        
         self.tableView.registerNib(UINib(nibName: "TopTableViewCell", bundle: nil), forCellReuseIdentifier: "TopTableViewCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        
+        longPressService.setUpLongPressRecognizer(self, tableView: tableView)
+        
         SVProgressHUD.show()
         self.setupMode()
         self.loadArticle()

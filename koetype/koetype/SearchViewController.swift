@@ -14,7 +14,8 @@ class SearchViewController: BaseViewController,UISearchBarDelegate,UITableViewDe
 
     @IBOutlet weak var searchView: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
-
+    
+    let longPressService = LongPressService()
     override func viewDidLoad() {
         super.viewDidLoad()
         super.setupNavigation()
@@ -23,6 +24,7 @@ class SearchViewController: BaseViewController,UISearchBarDelegate,UITableViewDe
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.searchView.delegate = self
+        longPressService.setUpLongPressRecognizer(self, tableView: tableView)
         SVProgressHUD.show()
         self.setApiParameterWithFind(keyword:"")
     }
