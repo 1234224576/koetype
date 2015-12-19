@@ -32,6 +32,22 @@ class ArticleProvider {
             }
     }
     
+    static func isMyActress(name:String)->Bool{
+        let searchActress : MyVoiceActress? = MyVoiceActress.MR_findFirstByAttribute("name", withValue:name)
+        if (searchActress == nil){
+            return false
+        }
+        return true
+    }
+    
+    static func isFavorite(articleId:NSNumber)->Bool{
+        let searchFav : Favorite? = Favorite.MR_findFirstByAttribute("article_id", withValue:articleId)
+        if (searchFav == nil){
+            return false
+        }
+        return true
+    }
+
     private func deleteFutureArticle(json:JSON?)->JSON{
         var jsonDataArray :[JSON] = []
         if let j = json{

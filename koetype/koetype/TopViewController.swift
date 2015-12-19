@@ -92,13 +92,19 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TopTableViewCell", forIndexPath: indexPath) as! TopTableViewCell
         if let json = self.responseJsonData{
-            print(json[indexPath.row] )
+            
             if json[indexPath.row] != nil{
+                cell.setUpCell()
                 cell.titleLabel.text = json[indexPath.row]["title"].string
                 cell.nameLabel.text = json[indexPath.row]["media"].string
                 cell.dateLabel.text = publishedStringToDate(json[indexPath.row]["published"].string!)
                 cell.url = json[indexPath.row]["link"].string
                 cell.articleId = Int((json[indexPath.row]["id"].string)!)
+                
+                print("\(cell.nameLabel.text) は \(ArticleProvider.isMyActress(cell.nameLabel.text!))")
+                cell.setNameLabelColor(ArticleProvider.isMyActress(cell.nameLabel.text!))
+                cell.favIcon.hidden = !ArticleProvider.isFavorite(cell.articleId!)
+              
             }
         }
         return cell
