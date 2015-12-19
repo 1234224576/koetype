@@ -13,8 +13,7 @@ import SVProgressHUD
 import MagicalRecord
 
 class BaseViewController: UIViewController{
-    
-    let baseUrl = "http://deeptoneworks.com/voice_actress/voice/public/voiceActress.json"
+
     var isLoading = false;
     let kOnceLoadArticle = 20
     var page : Int = 1
