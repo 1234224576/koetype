@@ -101,7 +101,6 @@ class TopViewController: BaseViewController,UITableViewDelegate,UITableViewDataS
                 cell.url = json[indexPath.row]["link"].string
                 cell.articleId = Int((json[indexPath.row]["id"].string)!)
                 
-                print("\(cell.nameLabel.text) は \(ArticleProvider.isMyActress(cell.nameLabel.text!))")
                 cell.setNameLabelColor(ArticleProvider.isMyActress(cell.nameLabel.text!))
                 cell.favIcon.hidden = !ArticleProvider.isFavorite(cell.articleId!)
               

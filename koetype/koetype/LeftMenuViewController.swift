@@ -64,7 +64,7 @@ class LeftMenuViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 cell.nameLabel.text = "検索"
                 cell.iconImageView.image = UIImage(named: "Menu_Search")
             case Menu.Howtouse.rawValue:
-                cell.nameLabel.text = "使い方"
+                cell.nameLabel.text = "よくある質問"
                 cell.iconImageView.image = UIImage(named: "Menu_Setting")
             default:
                 cell.nameLabel.text = ""
